@@ -1,7 +1,6 @@
 import os
 import pygame as pg
 import random as rnd
-
 import pickle
 import socket
 import glob
@@ -12,7 +11,7 @@ pg.init()
 class Network:
     def __init__(self):
         self.client = socket.socket()
-        self.server = "10.234.12.193"
+        self.server = "10.234.5.138" # "127.0.0.1"
         self.port = 9999
         self.address = (self.server, self.port)
         num_images, self.id = self.connect()
@@ -97,7 +96,7 @@ def main():
     running = True
     clock = pg.time.Clock()
     network = Network()
-    network.send(get_player_info())
+    network.send(("info", get_player_info()))
 
     while running:
         clock.tick(60)
@@ -105,7 +104,7 @@ def main():
             if event.type == pg.QUIT:
                 pg.quit()
 
-        redraw_screen(network.send(get_keys()))
+        redraw_screen(network.send(("keys", get_keys())))
 
 
 main()
