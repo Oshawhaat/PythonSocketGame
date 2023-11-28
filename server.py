@@ -6,7 +6,7 @@ import random as rnd
 from player import Player
 from _thread import start_new_thread
 
-server = "10.234.5.138" #"127.0.0.1" #
+server = "10.234.5.138" # "127.0.0.1"
 port = 9999
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -87,6 +87,7 @@ def threaded_client(conn):
         match key:
             case "info":
                 player.username, image_path = data
+                if image_path: player.set_image(image_path)
                 print(data)
 
             case "keys":
