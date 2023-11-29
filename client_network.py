@@ -1,11 +1,20 @@
-import os
-import pygame as pg
-import random as rnd
 import pickle
 import socket
 import glob
+import os
+import pygame as pg
+import random as rnd
 
 pg.init()
+
+screen_width = 800
+screen_height = 800
+screen = pg.display.set_mode((screen_width, screen_height))
+
+
+class Player:
+    def __init__(self):
+        pass
 
 
 class Network:
@@ -64,11 +73,6 @@ def get_player_info():
             print("That is not a valid number! try again: ")
 
     return username, image
-
-
-screen_width = 800
-screen_height = 800
-screen = pg.display.set_mode((screen_width, screen_height))
 
 
 def get_keys():
