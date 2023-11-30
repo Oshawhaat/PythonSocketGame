@@ -76,7 +76,7 @@ def get_player_info():
 
 
 def get_keys():
-    used_keys = [pg.K_w, pg.K_a, pg.K_s, pg.K_d, pg.K_SPACE]
+    used_keys = [pg.K_w, pg.K_a, pg.K_s, pg.K_d, pg.K_SPACE, pg.K_UP, pg.K_LEFT, pg.K_DOWN, pg.K_RIGHT]
     pressed_keys = pg.key.get_pressed()
     return { key:pressed_keys[key] for key in used_keys }
 
