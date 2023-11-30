@@ -12,8 +12,13 @@ class Player(Game_Object):
     def update(self, delta_time):
         if not self.keys: return
 
-        off_x = self.keys[pg.K_d] - self.keys[pg.K_a]
-        off_y = self.keys[pg.K_s] - self.keys[pg.K_w]
+        w = np.max(self.keys[pg.K_w], self.keys[pg.K_UP])
+        a = np.max(self.keys[pg.K_a], self.keys[pg.K_LEFT])
+        s = np.max(self.keys[pg.K_s], self.keys[pg.K_DOWN])
+        d = np.max(self.keys[pg.K_d], self.keys[pg.K_RIGHT])
+
+        off_x = d - a
+        off_y = s - w
 
         divisor = np.sqrt(np.square(off_x) + np.square(off_y))
         if not divisor: return
