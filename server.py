@@ -75,25 +75,27 @@ def threaded_client(conn):
             image_names.append(file_name)
 
     players.add(player)
-    while True:
-        _data = conn.recv(4096)
+    try:
+        while True:
+            _data = conn.recv(4096)
 
-        if check_if_request(_data, images, image_names, conn): continue
+            if check_if_request(_data, images, image_names, conn): continue
 
-        if not _data: break
+            if not _data: break
 
-        key, data = pickle.loads(_data)
+            key, data = pickle.loads(_data)
 
-        match key:
-            case "info":
-                player.username, image_path = data
-                if image_path: player.set_image(image_path)
-                print(data)
+            match key:
+                case "info":
+                    player.username, image_path = data
+                    if image_path: player.set_image(image_path)
+                    print(data)
 
-            case "keys":
-                player.keys = data
+                case "keys":
+                    player.keys = data
 
-        conn.send(pickle.dumps([ player.ready_pickle() for player in players.sprites() ]))
+            conn.send(pickle.dumps([ player.ready_pickle() for player in players.sprites() ]))
+    except ConnectionResetError: pass
     print("Disconnected")
     players.remove(player)
 
