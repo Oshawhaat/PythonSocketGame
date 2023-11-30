@@ -1,3 +1,3 @@
 # PythonSocketGame
-Users should only need client_network.py to play,
-Currently only works over LAN
+Users should only download client_network.py to play,
+currently only works over LAN
