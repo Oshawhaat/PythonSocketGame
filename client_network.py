@@ -12,9 +12,15 @@ screen_height = 800
 screen = pg.display.set_mode((screen_width, screen_height))
 
 
-class Player:
-    def __init__(self):
-        pass
+class Player(pg.sprite.Sprite):
+    def __init__(self, image_name, rect, health, username, group):
+        super().__init__(group)
+        self.image_name = image_name
+        self.rect = rect
+        self.health = health
+        self.username = username
+
+        self.image = pg.image.load(f"imgz/{image_name}")
 
 
 class Network:
@@ -81,17 +87,13 @@ def get_keys():
     return { key:pressed_keys[key] for key in used_keys }
 
 
-def draw_player(player):
-    image_path, rect, health, username = player
-    image = pg.image.load(f"imgz/{image_path.split('/')[1]}")
-    screen.blit(image, rect)
-
-
 def redraw_screen(players):
     screen.fill((255, 255, 255))
     if players:
-        for player in players:
-            draw_player(player)
+        player_group = pg.sprite.Group()
+        for player_stats in players:
+            Player(*player_stats, player_group)
+        player_group.draw(screen)
 
     pg.display.update()
 
