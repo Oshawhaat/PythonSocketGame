@@ -10,6 +10,7 @@ pg.init()
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 800
 PLAYER_FONT_SIZE = 12
+PLAYER_NAME_OFFSET = 0
 
 screen = pg.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 font = pg.font.Font(pg.font.get_default_font(), PLAYER_FONT_SIZE)
@@ -34,7 +35,7 @@ class Player(pg.sprite.Sprite):
     def draw_name(self):
         text = font.render(self.username, True, pg.color.THECOLORS["blue"])
         text_rect = text.get_rect()
-        text_rect.midbottom = self.rect.midtop
+        text_rect.midbottom = self.rect.x, self.rect.top + PLAYER_NAME_OFFSET
         screen.blit(text, text_rect)
 
 
