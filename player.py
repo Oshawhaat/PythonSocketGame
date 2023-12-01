@@ -8,6 +8,7 @@ class Player(Game_Object):
         super().__init__(image_path, pos)
         self.speed = 300  # pixels/second
         self.keys = None
+        self.username = ""
 
     def update(self, delta_time):
         if not self.keys: return
@@ -34,3 +35,9 @@ class Player(Game_Object):
 
         if self.rect.left < 0: self.rect.left = 0
         if self.rect.right > 800: self.rect.right = 800
+
+    def ready_pickle(self):
+        """
+        :return: image path, rect, health, username
+        """
+        return *super().ready_pickle(), self.username

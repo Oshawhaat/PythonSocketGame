@@ -82,7 +82,7 @@ def get_keys():
 
 
 def draw_player(player):
-    image_path, rect, health = player
+    image_path, rect, health, username = player
     image = pg.image.load(f"imgz/{image_path.split('/')[1]}")
     screen.blit(image, rect)
 
