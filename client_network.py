@@ -7,13 +7,22 @@ import random as rnd
 
 pg.init()
 
-screen_width = 800
-screen_height = 800
-screen = pg.display.set_mode((screen_width, screen_height))
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 800
+PLAYER_FONT_SIZE = 12
+
+screen = pg.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+font = pg.font.Font(pg.font.get_default_font(), PLAYER_FONT_SIZE)
+
+
+class Player_Group(pg.sprite.Group):
+    def draw_names(self):
+        for player in self.sprites():
+            player.draw_name()
 
 
 class Player(pg.sprite.Sprite):
-    def __init__(self, image_name, rect, health, username, group):
+    def __init__(self, image_name: str, rect: pg.rect.Rect, health: int, username: str, group: Player_Group):
         super().__init__(group)
         self.image_name = image_name
         self.rect = rect
@@ -21,6 +30,12 @@ class Player(pg.sprite.Sprite):
         self.username = username
 
         self.image = pg.image.load(f"imgz/{image_name}")
+
+    def draw_name(self):
+        text = font.render(self.username, True, pg.color.THECOLORS["blue"])
+        text_rect = text.get_rect()
+        text_rect.bottomleft = self.rect.topleft
+        screen.blit(text, text_rect)
 
 
 class Network:
@@ -90,10 +105,11 @@ def get_keys():
 def redraw_screen(players):
     screen.fill((255, 255, 255))
     if players:
-        player_group = pg.sprite.Group()
+        player_group = Player_Group()
         for player_stats in players:
             Player(*player_stats, player_group)
         player_group.draw(screen)
+        player_group.draw_names()
 
     pg.display.update()
 
