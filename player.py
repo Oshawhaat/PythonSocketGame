@@ -38,6 +38,6 @@ class Player(Game_Object):
 
     def ready_pickle(self):
         """
-        :return: image path, rect, health, username
+        :return: image_name, rect, health, username
         """
         return *super().ready_pickle(), self.username
