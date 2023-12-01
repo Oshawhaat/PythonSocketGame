@@ -108,7 +108,7 @@ def redraw_screen(players):
     if players:
         player_group = Player_Group()
         for player_stats in players:
-            Player(*player_stats, player_group)
+            Player(*player_stats, group=player_group)
         player_group.draw(screen)
         player_group.draw_names()
 
