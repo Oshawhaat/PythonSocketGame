@@ -22,10 +22,10 @@ class Player_Group(pg.sprite.Group):
 
 
 class Player(pg.sprite.Sprite):
-    def __init__(self, image_name: str, rect: pg.rect.Rect, health: int, username: str, group: Player_Group):
+    def __init__(self, image_name: str, rect: tuple, health: int, username: str, group: Player_Group):
         super().__init__(group)
         self.image_name = image_name
-        self.rect = rect
+        self.rect = pg.Rect(*rect)
         self.health = health
         self.username = username
 
@@ -34,7 +34,7 @@ class Player(pg.sprite.Sprite):
     def draw_name(self):
         text = font.render(self.username, True, pg.color.THECOLORS["blue"])
         text_rect = text.get_rect()
-        text_rect.bottomleft = self.rect.topleft
+        text_rect.midbottom = self.rect.midtop
         screen.blit(text, text_rect)
 
 
