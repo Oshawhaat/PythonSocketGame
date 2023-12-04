@@ -45,7 +45,14 @@ class Network:
         self.server = "10.234.5.138" # "127.0.0.1"
         self.port = 9999
         self.address = (self.server, self.port)
-        num_images, self.id = self.connect()
+        try:
+            num_images, self.id = self.connect()
+        except OSError as error:
+            print(f"\n*********************************\n"
+                  f"Could not find server\n"
+                  f"{error}\n"
+                  f"*********************************")
+            exit()
         print(self.id)
 
         try: os.mkdir("imgz")
