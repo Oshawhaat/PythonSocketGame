@@ -19,6 +19,7 @@ except socket.error as e:
 s.listen()
 print("Server started, awaiting connections")
 
+# remove invisible .DS_Store file that does not seem to be able to be removed
 image_paths = ["imgs/" + image_name for image_name in os.listdir("imgs") if image_name != ".DS_Store"]
 print(f"found {len(image_paths)} images:\n", image_paths)
 
