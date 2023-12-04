@@ -7,23 +7,52 @@ import random as rnd
 
 pg.init()
 
-screen_width = 800
-screen_height = 800
-screen = pg.display.set_mode((screen_width, screen_height))
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 800
+PLAYER_FONT_SIZE = 12
+PLAYER_NAME_OFFSET = 5
+
+screen = pg.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+font = pg.font.Font(pg.font.get_default_font(), PLAYER_FONT_SIZE)
 
 
-class Player:
-    def __init__(self):
-        pass
+class Player_Group(pg.sprite.Group):
+    def draw_names(self):
+        for player in self.sprites():
+            player.draw_name()
+
+
+class Player(pg.sprite.Sprite):
+    def __init__(self, image_name: str, rect: tuple, health: int, username: str, group: Player_Group):
+        super().__init__(group)
+        self.image_name = image_name
+        self.rect = pg.Rect(*rect)
+        self.health = health
+        self.username = username
+
+        self.image = pg.image.load(f"imgz/{image_name}")
+
+    def draw_name(self):
+        text = font.render(self.username, True, pg.color.THECOLORS["blue"])
+        text_rect = text.get_rect()
+        text_rect.midbottom = self.rect.centerx, self.rect.top + PLAYER_NAME_OFFSET
+        screen.blit(text, text_rect)
 
 
 class Network:
     def __init__(self):
         self.client = socket.socket()
-        self.server = "10.234.5.138" # "127.0.0.1"
+        self.server = "10.234.12.66" # "127.0.0.1"
         self.port = 9999
         self.address = (self.server, self.port)
-        num_images, self.id = self.connect()
+        try:
+            num_images, self.id = self.connect()
+        except OSError as error:
+            print(f"\n*********************************\n"
+                  f"Could not find server\n"
+                  f"{error}\n"
+                  f"*********************************")
+            exit()
         print(self.id)
 
         try: os.mkdir("imgz")
@@ -81,17 +110,14 @@ def get_keys():
     return { key:pressed_keys[key] for key in used_keys }
 
 
-def draw_player(player):
-    image_path, rect, health = player
-    image = pg.image.load(f"imgz/{image_path.split('/')[1]}")
-    screen.blit(image, rect)
-
-
 def redraw_screen(players):
     screen.fill((255, 255, 255))
     if players:
-        for player in players:
-            draw_player(player)
+        player_group = Player_Group()
+        for player_stats in players:
+            Player(*player_stats, group=player_group)
+        player_group.draw(screen)
+        player_group.draw_names()
 
     pg.display.update()
 

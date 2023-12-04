@@ -13,9 +13,9 @@ class Game_Object(pg.sprite.Sprite):
         self.rect.center = pos
 
     def ready_pickle(self):
-        image_path = self.image_path
+        image_name = self.image_path.split('/')[1]
         rect = (*self.rect.topleft, *self.rect.size)
-        return image_path, rect, self.health
+        return image_name, rect, self.health
 
     def set_image(self, image_path):
         self.image_path = image_path
