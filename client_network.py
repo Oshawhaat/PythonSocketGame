@@ -42,7 +42,7 @@ class Player(pg.sprite.Sprite):
 class Network:
     def __init__(self):
         self.client = socket.socket()
-        self.server = "10.234.5.138" # "127.0.0.1"
+        self.server = "10.234.12.66" # "127.0.0.1"
         self.port = 9999
         self.address = (self.server, self.port)
         try:
