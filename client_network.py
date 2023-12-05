@@ -48,7 +48,7 @@ class Network:
             num_images, self.id = self.connect()
         except OSError as error:
             print(f"\n*********************************\n"
-                  f"Could not find server\n"
+                  f"Could not connect to server\n"
                   f"{error}\n"
                   f"*********************************")
             exit()
