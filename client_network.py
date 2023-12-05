@@ -104,16 +104,17 @@ def get_player_info():
 
 
 def get_keys():
+    used_keys = [pg.K_w, pg.K_a, pg.K_s, pg.K_d, pg.K_UP, pg.K_LEFT, pg.K_DOWN, pg.K_RIGHT, pg.K_SPACE, pg.KMOD_SHIFT]
     pressed_keys = pg.key.get_pressed()
-    return { key:pressed_keys[key] for key in pressed_keys }
+    return { key:pressed_keys[key] for key in used_keys }
 
 
 def redraw_screen(players):
     screen.fill((255, 255, 255))
     if players:
         player_group = Player_Group()
-        for player_stats in players:
-            Player(*player_stats, group=player_group)
+        for player_dict in players:
+            Player(player_dict, group=player_group)
         player_group.draw(screen)
         player_group.draw_names()
 
