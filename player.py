@@ -36,8 +36,7 @@ class Player(Game_Object):
         if self.rect.left < 0: self.rect.left = 0
         if self.rect.right > 800: self.rect.right = 800
 
-    def ready_pickle(self):
-        """
-        :return: image_name, rect, health, username
-        """
-        return *super().ready_pickle(), self.username
+    def dictionarify(self):
+        player_dict = super().dictionarify()
+        player_dict["username"] = self.username
+        return player_dict

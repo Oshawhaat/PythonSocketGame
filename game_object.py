@@ -12,13 +12,17 @@ class Game_Object(pg.sprite.Sprite):
         self.set_image(image_path)
         self.rect.center = pos
 
-    def ready_pickle(self):
+    def dictionarify(self):
         image_name = self.image_path.split('/')[1]
         rect = (*self.rect.topleft, *self.rect.size)
-        return image_name, rect, self.health
+
+        player_dict = {"image_name": image_name,
+                       "rect": rect,
+                       "health": self.health}
+
+        return player_dict
 
     def set_image(self, image_path):
         self.image_path = image_path
         self.image = pg.image.load(image_path)
         self.rect = self.image.get_rect()
-

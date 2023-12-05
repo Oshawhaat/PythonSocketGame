@@ -23,14 +23,13 @@ class Player_Group(pg.sprite.Group):
 
 
 class Player(pg.sprite.Sprite):
-    def __init__(self, image_name: str, rect: tuple, health: int, username: str, group: Player_Group):
+    def __init__(self, player_dict: dict, group: Player_Group):
         super().__init__(group)
-        self.image_name = image_name
-        self.rect = pg.Rect(*rect)
-        self.health = health
-        self.username = username
+        self.rect = pg.Rect(*player_dict["rect"])
+        self.health = player_dict["health"]
+        self.username = player_dict["username"]
 
-        self.image = pg.image.load(f"imgz/{image_name}")
+        self.image = pg.image.load(f"imgz/{player_dict['image_name']}")
 
     def draw_name(self):
         text = font.render(self.username, True, pg.color.THECOLORS["blue"])
@@ -42,7 +41,7 @@ class Player(pg.sprite.Sprite):
 class Network:
     def __init__(self):
         self.client = socket.socket()
-        self.server = "10.234.12.66" # "127.0.0.1"
+        self.server = "192.168.1.146" # "10.234.12.66" # "127.0.0.1"
         self.port = 9999
         self.address = (self.server, self.port)
         try:
@@ -105,9 +104,8 @@ def get_player_info():
 
 
 def get_keys():
-    used_keys = [pg.K_w, pg.K_a, pg.K_s, pg.K_d, pg.K_SPACE, pg.K_UP, pg.K_LEFT, pg.K_DOWN, pg.K_RIGHT]
     pressed_keys = pg.key.get_pressed()
-    return { key:pressed_keys[key] for key in used_keys }
+    return { key:pressed_keys[key] for key in pressed_keys }
 
 
 def redraw_screen(players):
