@@ -95,7 +95,7 @@ def threaded_client(conn):
                 case "keys":
                     player.keys = data
 
-            conn.send(pickle.dumps([ player.ready_pickle() for player in players.sprites() ]))
+            conn.send(pickle.dumps([ player.dictionarify() for player in players.sprites() ]))
     except ConnectionResetError: pass
     print("Disconnected")
     players.remove(player)
