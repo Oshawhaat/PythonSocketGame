@@ -7,7 +7,7 @@ class Player(Game_Object):
     def __init__(self, image_path, pos):
         super().__init__(image_path, pos)
         self.speed = 300  # pixels/second
-        self.keys = None
+        self.keys = {}
         self.username = ""
 
     def update(self, delta_time):
