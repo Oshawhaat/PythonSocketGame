@@ -106,7 +106,10 @@ def get_player_info():
 def get_keys():
     used_keys = [pg.K_w, pg.K_a, pg.K_s, pg.K_d, pg.K_UP, pg.K_LEFT, pg.K_DOWN, pg.K_RIGHT, pg.K_SPACE, pg.KMOD_SHIFT]
     pressed_keys = pg.key.get_pressed()
-    return { key:pressed_keys[key] for key in used_keys }
+    key_dict = { key:pressed_keys[key] for key in used_keys }
+    key_dict["mb1"], key_dict["mb2"], key_dict["mb3"] = pg.mouse.get_pressed(num_buttons=3)
+    key_dict["mpos"] = pg.mouse.get_pos()
+    return key_dict
 
 
 def redraw_screen(players):
