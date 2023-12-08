@@ -44,5 +44,6 @@ class Player(Game_Object):
 
     def dictionarify(self):
         player_dict = super().dictionarify()
+        player_dict["class"] = "player"
         player_dict["username"] = self.username
         return player_dict
