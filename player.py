@@ -10,7 +10,10 @@ class Player(Game_Object):
         self.keys = {}
         self.username = ""
 
-    def update(self, delta_time: float, solid_tile_rects: list = []):
+    def __str__(self):
+        return "player"
+
+    def update(self, delta_time: float, solid_tile_rects: list = None):
         if not self.keys: return
 
         w = max(self.keys[pg.K_w], self.keys[pg.K_UP])
@@ -32,18 +35,21 @@ class Player(Game_Object):
 
         try:
             self.x += move_x
-            assert not self.rect.collidelist(solid_tile_rects)
+            if solid_tile_rects is not None:
+                for tile in solid_tile_rects:
+                    assert not self.rect.colliderect(tile)
         except AssertionError:
             self.x -= move_x
 
         try:
-            self.x += move_y
-            assert not self.rect.collidelist(solid_tile_rects)
+            self.y += move_y
+            if solid_tile_rects is not None:
+                for tile in solid_tile_rects:
+                    assert not self.rect.colliderect(tile)
         except AssertionError:
             self.y -= move_y
 
     def dictionarify(self):
         player_dict = super().dictionarify()
-        player_dict["class"] = "player"
         player_dict["username"] = self.username
         return player_dict
