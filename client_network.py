@@ -16,7 +16,14 @@ screen = pg.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 font = pg.font.Font(pg.font.get_default_font(), PLAYER_FONT_SIZE)
 
 
-class Player_Group(pg.sprite.Group):
+class Game_Object_Group(pg.sprite.Group):
+    def sprites(self, obj_class: type = None, tag=None):
+        sprites = super().sprites()
+        if not obj_class: return sprites
+        for sprite in sprites:
+            if type(sprite) == obj_class:
+                yield sprite
+
     def draw_names(self):
         pass
 
@@ -118,14 +125,23 @@ def get_keys():
     return key_dict
 
 
-def redraw_screen(players):
+def redraw_screen(objects):
     screen.fill((255, 255, 255))
-    if players:
-        player_group = Player_Group()
-        for player_dict in players:
-            Player(player_dict, group=player_group)
-        player_group.draw(screen)
-        player_group.draw_names()
+    if objects:
+
+        object_group = Game_Object_Group()
+
+        for obj_dict in objects:
+            match obj_dict["class"]:
+                case "player":
+                    Player(obj_dict, group=object_group)
+                case "tile":
+                    pass  # TODO make tile class
+
+        object_group.draw(screen)
+
+        for player in object_group.sprites(Player):
+            player.draw_name()
 
     pg.display.update()
 
