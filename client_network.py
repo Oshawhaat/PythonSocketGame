@@ -19,10 +19,9 @@ font = pg.font.Font(pg.font.get_default_font(), PLAYER_FONT_SIZE)
 class Game_Object_Group(pg.sprite.Group):
     def sprites(self, obj_class: type = None, tag=None):
         sprites = super().sprites()
-        if not obj_class: return sprites
-        for sprite in sprites:
-            if type(sprite) == obj_class:
-                yield sprite
+        if not obj_class:
+            return sprites
+        return [sprite for sprite in sprites if type(sprite) == obj_class]
 
     def draw_names(self):
         pass
@@ -30,8 +29,12 @@ class Game_Object_Group(pg.sprite.Group):
 
 class Game_Object(pg.sprite.Sprite):
     def __init__(self, obj_dict, group):
-        super().__init__(group) if group else super().__init__()
+        super().__init__(group)
         self.rect = pg.Rect(*obj_dict["rect"])
+        self.x = obj_dict["x"]
+        self.y = obj_dict["y"]
+        self.rect.x += SCREEN_WIDTH / 2
+        self.rect.y += SCREEN_HEIGHT / 2
         self.image = pg.image.load(f"imgz/{obj_dict['image_name']}")
         if obj_dict["health"]:
             self.health = obj_dict["health"]
@@ -43,7 +46,7 @@ class Player(Game_Object):
         self.username = player_dict["username"]
 
     def draw_name(self):
-        text = font.render(self.username, True, pg.color.THECOLORS["blue"])
+        text = font.render(self.username, True, pg.color.THECOLORS["red"])
         text_rect = text.get_rect()
         text_rect.midbottom = self.rect.centerx, self.rect.top + PLAYER_NAME_OFFSET
         screen.blit(text, text_rect)
@@ -62,8 +65,8 @@ class Network:
                   f"Could not connect to server\n"
                   f"{error}\n"
                   f"*********************************")
-            exit()
-        print(self.id)
+            pg.quit()
+        print(f"player id: {self.id}")
 
         try:
             os.mkdir("imgz")
@@ -113,6 +116,8 @@ def get_player_info():
         except ValueError:
             print("That is not a valid number! try again: ")
 
+    print("The game is ready, open the window")
+
     return username, image
 
 
@@ -126,24 +131,25 @@ def get_keys():
 
 
 def redraw_screen(objects):
+
     screen.fill((255, 255, 255))
-    if objects:
+    if not objects:
+        return
 
-        object_group = Game_Object_Group()
+    object_group = Game_Object_Group()
 
-        for obj_dict in objects:
-            match obj_dict["class"]:
-                case "player":
-                    Player(obj_dict, group=object_group)
-                case "tile":
-                    pass  # TODO make tile class
+    for obj_dict in objects:
+        match obj_dict["class"]:
+            case "player":
+                Player(obj_dict, group=object_group)
+            case "tile":
+                pass  # TODO make tile class
 
-        object_group.draw(screen)
+    object_group.draw(screen)
 
-        for player in object_group.sprites(Player):
-            player.draw_name()
-
-    pg.display.update()
+    for player in object_group.sprites(Player):
+        print(player.x, player.y)
+        player.draw_name()
 
 
 def main():
@@ -159,6 +165,7 @@ def main():
                 pg.quit()
 
         redraw_screen(network.send(("keys", get_keys())))
+        pg.display.update()
 
 
 main()
