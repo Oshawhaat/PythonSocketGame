@@ -10,7 +10,7 @@ class Player(Game_Object):
         self.keys = {}
         self.username = ""
 
-    def update(self, delta_time):
+    def update(self, delta_time: float, solid_tile_rects: list = []):
         if not self.keys: return
 
         w = max(self.keys[pg.K_w], self.keys[pg.K_UP])
@@ -18,23 +18,29 @@ class Player(Game_Object):
         s = max(self.keys[pg.K_s], self.keys[pg.K_DOWN])
         d = max(self.keys[pg.K_d], self.keys[pg.K_RIGHT])
 
-        off_x = d - a
-        off_y = s - w
+        offset_x = d - a
+        offset_y = s - w
 
-        divisor = np.sqrt(np.square(off_x) + np.square(off_y))
+        divisor = np.sqrt(np.square(offset_x) + np.square(offset_y))
         if not divisor: return
 
-        norm_x = off_x / divisor
-        norm_y = off_y / divisor
+        norm_x = offset_x / divisor
+        norm_y = offset_y / divisor
 
-        self.rect.x += norm_x * self.speed * delta_time
-        self.rect.y += norm_y * self.speed * delta_time
+        move_x = norm_x * self.speed * delta_time
+        move_y = norm_y * self.speed * delta_time
 
-        if self.rect.top < 0: self.rect.top = 0
-        if self.rect.bottom > 800: self.rect.bottom = 800
+        try:
+            self.x += move_x
+            assert not self.rect.collidelist(solid_tile_rects)
+        except AssertionError:
+            self.x -= move_x
 
-        if self.rect.left < 0: self.rect.left = 0
-        if self.rect.right > 800: self.rect.right = 800
+        try:
+            self.x += move_y
+            assert not self.rect.collidelist(solid_tile_rects)
+        except AssertionError:
+            self.y -= move_y
 
     def dictionarify(self):
         player_dict = super().dictionarify()
