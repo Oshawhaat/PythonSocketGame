@@ -10,6 +10,9 @@ class Tile(Game_Object):
     def __init__(self, image_path: str, pos: tuple[int, int]):
         super().__init__(image_path, pos)
 
+    def __str__(self):
+        return "tile"
+
 
 class Ground(Tile):
     solid = False
