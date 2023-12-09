@@ -168,4 +168,5 @@ def main():
         pg.display.update()
 
 
-main()
+if __name__ == "__main__":
+    main()
