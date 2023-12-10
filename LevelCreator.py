@@ -107,5 +107,3 @@ while True:
             print ("x = {}, y = {}".format(pos[0], pos[1]))
 
     pg.display.flip()
-    pg.display.update()
-    # I wouldn't put anything after the display.update() call
