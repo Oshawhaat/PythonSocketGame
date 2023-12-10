@@ -1,9 +1,9 @@
 import pickle
 import pygame as pg
-import socket
-import glob
-import os
-import random as rnd
+#import socket
+#import glob
+#import os
+#import random as rnd
 
 pg.init()
 
