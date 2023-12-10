@@ -48,12 +48,12 @@ def PickImage(mouseX, mouseY):
 # Create an empty list
 grid = []
 # Loop for each row
-for row in range(10):
+for row in range(10): #TODO magic number
     # For each row, create a list that will
     # represent an entire row
     grid.append([])
     # Loop for each column
-    for column in range(10):
+    for column in range(10): #TODO magic number
         # Add a the number zero to the current row
         grid[row].append(0)
 
@@ -66,16 +66,16 @@ while True:
     pg.draw.line(screen, (0,0,0), (800,0), (800,800))
 
     i = 0
-    while(i < 8/scale+1):
+    while(i < 8/scale+1): #TODO an iterating while loop is the same as a for loop
         i+=1
-        pg.draw.line(screen, (0,0,0), (i*scale*100,0), (i*scale*100,800))
+        pg.draw.line(screen, (0,0,0), (i*scale*100,0), (i*scale*100,800)) #TODO magic number
 
     im = 0
-    while(im < 8/scale+1):
+    while(im < 8/scale+1): #TODO ^(ln69) #TODO magic number
         im+=1
-        pg.draw.line(screen, (0,0,0), (0,im*scale*100), (800,im*scale*100))
+        pg.draw.line(screen, (0,0,0), (0,im*scale*100), (800,im*scale*100)) #TODO magic number
 
-
+    #TODO when repeating a bunch of code but slighly differnt, a for loop is almost always the solution #TODO magic number
     screen.blit(pg.transform.scale(pg.image.load(r'imgz/image1.jpeg'),(100,100)), (800, 0))
     screen.blit(pg.transform.scale(pg.image.load(r'imgz/image2.jpeg'),(100,100)), (800, 100))
     screen.blit(pg.transform.scale(pg.image.load(r'imgz/image3.jpeg'),(100,100)), (800, 200))
@@ -86,17 +86,17 @@ while True:
     screen.blit(pg.transform.scale(pg.image.load(r'imgz/image8.jpeg'),(100,100)), (800, 700))
 
     if(pg.mouse.get_pressed(3)[0] == True):
-       grid[mouseX//100][mouseY//100] = 1
+       grid[mouseX//100][mouseY//100] = 1 #TODO magic number
        print(grid)         
 
     
-    for column in range(int(8/scale)):
-        for row in range(int(8/scale)):
-            screen.blit(pg.transform.scale(pg.image.load(r'imgz/image8.jpeg'),(100*scale,100*scale)), (100*column*scale, 100*row*scale))
+    for column in range(int(8/scale)): #TODO magic number
+        for row in range(int(8/scale)): #TODO magic number
+            screen.blit(pg.transform.scale(pg.image.load(r'imgz/image8.jpeg'),(100*scale,100*scale)), (100*column*scale, 100*row*scale)) #TODO lots of magic numbers
     
-    if(grid[mouseX//100][mouseY//100] == 1):
-        screen.blit(pg.transform.scale(tilePicked,(100*scale,100*scale)), (100*(200//50)*scale, 100*(299//50)*scale))
-        screen.blit(pg.transform.scale(tilePicked,(100*scale,100*scale)), (100*(mouseX//50)*scale, 100*(mouseY//50)*scale))
+    if(grid[mouseX//100][mouseY//100] == 1): #TODO what is this code for? it is not clear to me when reading it #TODO magic number
+        screen.blit(pg.transform.scale(tilePicked,(100*scale,100*scale)), (100*(200//50)*scale, 100*(299//50)*scale)) #TODO magic number
+        screen.blit(pg.transform.scale(tilePicked,(100*scale,100*scale)), (100*(mouseX//50)*scale, 100*(mouseY//50)*scale)) #TODO magic number
     
     for event in pg.event.get():
         if event.type == pg.QUIT:
@@ -104,6 +104,6 @@ while True:
         if event.type == pg.MOUSEBUTTONDOWN:
             pos=pg.mouse.get_pos()
             btn=pg.mouse
-            print ("x = {}, y = {}".format(pos[0], pos[1]))
+            print ("x = {}, y = {}".format(pos[0], pos[1])) #TODO you can simply fill the curleys with the var you want by using an f string
 
     pg.display.flip()
