@@ -67,15 +67,17 @@ for row in range(10):
 
 while True:
     screen.fill((255,255,255))
-    pg.draw.line(screen, (0,0,0), (800,0), (800,800))
-    
-    i = 0
-    im = 0
 
+    mouseX,mouseY = pg.mouse.get_pos()
+
+    pg.draw.line(screen, (0,0,0), (800,0), (800,800))
+
+    i = 0
     while(i < 8/scale+1):
         i+=1
         pg.draw.line(screen, (0,0,0), (i*scale*100,0), (i*scale*100,800))
 
+    im = 0
     while(im < 8/scale+1):
         im+=1
         pg.draw.line(screen, (0,0,0), (0,im*scale*100), (800,im*scale*100))
@@ -89,13 +91,11 @@ while True:
     screen.blit(pg.transform.scale(pg.image.load(r'imgz/image6.png'),(100,100)), (800, 500))
     screen.blit(pg.transform.scale(pg.image.load(r'imgz/image7.jpeg'),(100,100)), (800, 600))
     screen.blit(pg.transform.scale(pg.image.load(r'imgz/image8.jpeg'),(100,100)), (800, 700))
-    mouseX,mouseY = pg.mouse.get_pos()
 
     if(pg.mouse.get_pressed(3)[0] == True):
        grid[mouseX//100][mouseY//100] = 1
        print(grid)         
 
-    
     
     for column in range(int(8/scale)):
         for row in range(int(8/scale)):
@@ -114,6 +114,5 @@ while True:
             print ("x = {}, y = {}".format(pos[0], pos[1]))
 
     pg.display.flip()
-    # stuff can go here too
     pg.display.update()
     # I wouldn't put anything after the display.update() call
