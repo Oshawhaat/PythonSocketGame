@@ -19,27 +19,26 @@ yPosImage = False
 xPosImage = False
 
 
-def PickImage(mouseX, mouseY):
-    global tilePicked
-    if(mouseY < 100 and mouseX > 800):
+def pick_image(mouseX, mouseY): #TODO handle if mouse is at exactly a multiple of 100 #TODO so many magic number
+    if not mouseX > 800: return
+
+    if(mouseY < 100):
         tilePicked = pg.image.load(r'imgz/image1.jpeg')
-    if(mouseY > 100 and mouseY < 200 and mouseX > 800):
-        print("2nd")
+    if(mouseY > 100 and mouseY < 200):
         tilePicked = pg.image.load(r'imgz/image2.jpeg')
-    if(mouseY > 200 and mouseY < 300 and mouseX > 800):
+    if(mouseY > 200 and mouseY < 300):
         tilePicked = pg.image.load(r'imgz/image3.jpeg')
-    if(mouseY > 300 and mouseY< 400 and mouseX > 800):
+    if(mouseY > 300 and mouseY < 400):
         tilePicked = pg.image.load(r'imgz/image4.jpeg')
-    if(mouseY > 400 and mouseY < 500 and mouseX > 800):
+    if(mouseY > 400 and mouseY < 500):
         tilePicked = pg.image.load(r'imgz/image5.jpeg')
-    if(mouseY > 500 and mouseY < 600) and mouseX > 800:
+    if(mouseY > 500 and mouseY < 600):
         tilePicked = pg.image.load(r'imgz/image6.png')
-    if(mouseY > 600 and mouseY < 700 and mouseX > 800):
+    if(mouseY > 600 and mouseY < 700):
         tilePicked = pg.image.load(r'imgz/image7.jpeg')
     if(mouseY > 700):
         tilePicked = pg.image.load(r'imgz/image8.jpeg')
-    if(mouseX < 800):
-        return screen.blit(pg.transform.scale(tilePicked,(100,100)), (mouseX, mouseY))
+    return screen.blit(pg.transform.scale(tilePicked,(100,100)), (mouseX, mouseY))
     
 
 # --- Create grid of numbers
