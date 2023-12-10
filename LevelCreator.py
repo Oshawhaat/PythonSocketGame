@@ -13,16 +13,13 @@ AMOGUS = pg.image.load(r'imgz/amogus.png')
 
 screen = pg.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 tilePicked = pg.image.load(r'imgz/image1.jpeg')
-mouseX, mouseY = pg.mouse.get_pos()
 
-emouseX = mouseX
-emouseY = mouseY
 scale = 0.5
 yPosImage = False
 xPosImage = False
 
 
-def PickImage():
+def PickImage(mouseX, mouseY):
     global tilePicked
     if(mouseY < 100 and mouseX > 800):
         tilePicked = pg.image.load(r'imgz/image1.jpeg')
@@ -42,11 +39,7 @@ def PickImage():
     if(mouseY > 700):
         tilePicked = pg.image.load(r'imgz/image8.jpeg')
     if(mouseX < 800):
-        global emouseX
-        emouseX = mouseX
-        global emouseY
-        emouseY = mouseY
-        return screen.blit(pg.transform.scale(tilePicked,(100,100)), (emouseX, emouseY))
+        return screen.blit(pg.transform.scale(tilePicked,(100,100)), (mouseX, mouseY))
     
 
 # --- Create grid of numbers
@@ -68,7 +61,7 @@ for row in range(10):
 while True:
     screen.fill((255,255,255))
 
-    mouseX,mouseY = pg.mouse.get_pos()
+    mouseX, mouseY = pg.mouse.get_pos()
 
     pg.draw.line(screen, (0,0,0), (800,0), (800,800))
 
