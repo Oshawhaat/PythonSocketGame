@@ -55,7 +55,8 @@ class Player(Game_Object):
 class Network:
     def __init__(self):
         self.client = socket.socket()
-        self.server = "10.234.12.66"  # "127.0.0.1"
+        # self.server = "127.0.0.1"
+        self.server = "10.234.12.66"
         self.port = 9999
         self.address = (self.server, self.port)
         try:
