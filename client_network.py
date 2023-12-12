@@ -74,6 +74,7 @@ class Network:
                   f"{error}\n"
                   f"*********************************")
             pg.quit()
+            quit()
         print(f"player id: {self.id}")
 
         try:
