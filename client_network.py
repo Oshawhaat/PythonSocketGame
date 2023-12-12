@@ -146,8 +146,10 @@ def redraw_screen(objects):
         return
 
     object_group = Game_Object_Group()
+    player_group = Game_Object_Group()
 
-    for obj_dict in objects:
+    main_player = Player(objects[0], group=player_group, main_player=True)
+    for obj_dict in objects[1:]:
         match obj_dict["class"]:
             case "player":
                 Player(obj_dict, group=object_group)
@@ -155,9 +157,9 @@ def redraw_screen(objects):
                 Tile(obj_dict, group=object_group)
 
     object_group.draw(screen)
+    player_group.draw(screen)
 
-    for player in object_group.sprites(Player):
-        print(player.x, player.y)
+    for player in player_group:
         player.draw_name()
 
 
