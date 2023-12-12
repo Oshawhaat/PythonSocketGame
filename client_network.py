@@ -140,7 +140,6 @@ def get_keys():
 
 
 def redraw_screen(objects):
-
     screen.fill((255, 255, 255))
     if not objects:
         return
@@ -152,10 +151,14 @@ def redraw_screen(objects):
     for obj_dict in objects[1:]:
         match obj_dict["class"]:
             case "player":
-                Player(obj_dict, group=object_group)
+                Player(obj_dict, group=player_group)
             case "tile":
                 Tile(obj_dict, group=object_group)
 
+    for obj in object_group.sprites() + \
+            [p for p in player_group.sprites() if not p.main_player]:
+        obj.rect.x -= main_player.x
+        obj.rect.y -= main_player.y
     object_group.draw(screen)
     player_group.draw(screen)
 
