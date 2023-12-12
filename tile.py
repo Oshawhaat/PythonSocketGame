@@ -2,7 +2,6 @@ from game_object import Game_Object
 from dataclasses import dataclass
 
 
-@dataclass
 class Tile(Game_Object):
     solid: bool
     image_path: str
