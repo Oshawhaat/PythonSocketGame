@@ -1,9 +1,5 @@
 import pickle
 import pygame as pg
-#import socket
-#import glob
-#import os
-#import random as rnd
 
 pg.init()
 
@@ -17,11 +13,9 @@ tilePicked = pg.image.load(r'imgz/image1.jpeg')
 
 SCALE = 0.5
 GRID_TO_ARRAY= 100
-MULTIPLE_PREVENTER = 0
 
 
 def pick_image(mouseX, mouseY):  #TODO so many magic number
-    global tilePicked
     if not mouseX > 800: return
     if(mouseY < 100):
         tilePicked = pg.image.load(r'imgz/image1.jpeg')
@@ -44,8 +38,6 @@ def pick_image(mouseX, mouseY):  #TODO so many magic number
 
 # --- Create grid of numbers
 # Create an empty list
-# --- Create grid of numbers
-# Create an empty list
 grid = []
 # Loop for each row
 for row in range(10): #TODO magic number
@@ -59,7 +51,6 @@ for row in range(10): #TODO magic number
 
 screen.fill((255,255,255))
 while True:
-    
 
     mouseX, mouseY = pg.mouse.get_pos()
     
@@ -87,14 +78,9 @@ while True:
     screen.blit(pg.transform.scale(pg.image.load(r'imgz/image8.jpeg'),(100,100)), (800, 700))
     
     if(pg.mouse.get_pressed(3)[0] == True):
-        pick_image(mouseX, mouseY)
+        tilePicked = pick_image(mouseX, mouseY)
         grid[int(mouseX//GRID_TO_ARRAY)][int(mouseY//GRID_TO_ARRAY)] = 1 #TODO magic number
-        MULTIPLE_PREVENTER = 0
     
-       
-
-    
-
     
     if(grid[mouseX//int(GRID_TO_ARRAY)][mouseY//int(GRID_TO_ARRAY)] == 1): #TODO what is this code for? it is not clear to me when reading it #TODO magic number
         screen.blit(pg.transform.scale(tilePicked,(100*SCALE,100*SCALE)), (100*(mouseX//50)*SCALE, 100*(mouseY//50)*SCALE)) #TODO magic number
@@ -102,8 +88,5 @@ while True:
     for event in pg.event.get():
         if event.type == pg.QUIT:
             pg.quit()
-        if event.type == pg.MOUSEBUTTONDOWN:
-            pos=pg.mouse.get_pos()
-            btn=pg.mouse
 
     pg.display.flip()
