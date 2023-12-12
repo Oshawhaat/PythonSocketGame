@@ -13,6 +13,15 @@ AMOGUS = pg.image.load(r'imgz/amogus.png')
 screen = pg.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 tilePicked = pg.image.load(r'imgz/image1.jpeg')
 
+tile_images = ["imgs/image1.jpeg",
+               "imgs/image2.jpeg",
+               "imgs/image3.jpeg",
+               "imgs/image4.jpeg",
+               "imgs/image5.jpeg",
+               "imgs/image6.png",
+               "imgs/image7.jpeg",
+               "imgs/image8.jpeg",]
+
 
 def pick_image(mouseX, mouseY):  #TODO so many magic number
     if not mouseX > 800: return
@@ -66,15 +75,17 @@ while True:
         pg.draw.line(screen, (0,0,0), (0,im*SCALE*100), (800,im*SCALE*100)) #TODO magic number
 
 
-    #TODO when repeating a bunch of code but slighly differnt, a for loop is almost always the solution #TODO magic number
-    screen.blit(pg.transform.scale(pg.image.load(r'imgz/image1.jpeg'), (100,100)), (800, 0))
-    screen.blit(pg.transform.scale(pg.image.load(r'imgz/image2.jpeg'), (100,100)), (800, 100))
-    screen.blit(pg.transform.scale(pg.image.load(r'imgz/image3.jpeg'), (100,100)), (800, 200))
-    screen.blit(pg.transform.scale(pg.image.load(r'imgz/image4.jpeg'), (100,100)), (800, 300))
-    screen.blit(pg.transform.scale(pg.image.load(r'imgz/image5.jpeg'), (100,100)), (800, 400))
-    screen.blit(pg.transform.scale(pg.image.load(r'imgz/image6.png'), (100,100)), (800, 500))
-    screen.blit(pg.transform.scale(pg.image.load(r'imgz/image7.jpeg'), (100,100)), (800, 600))
-    screen.blit(pg.transform.scale(pg.image.load(r'imgz/image8.jpeg'), (100,100)), (800, 700))
+    #TODO make sure this works #TODO magic number
+    for img, x_cor in zip(tile_images, range(0, 700, 100)):
+        screen.blit(pg.transform.scale(pg.image.load(img), (100,100)), (800, x_cor))
+    #screen.blit(pg.transform.scale(pg.image.load(r'imgz/image1.jpeg'), (100,100)), (800, 0))
+    #screen.blit(pg.transform.scale(pg.image.load(r'imgz/image2.jpeg'), (100,100)), (800, 100))
+    #screen.blit(pg.transform.scale(pg.image.load(r'imgz/image3.jpeg'), (100,100)), (800, 200))
+    #screen.blit(pg.transform.scale(pg.image.load(r'imgz/image4.jpeg'), (100,100)), (800, 300))
+    #screen.blit(pg.transform.scale(pg.image.load(r'imgz/image5.jpeg'), (100,100)), (800, 400))
+    #screen.blit(pg.transform.scale(pg.image.load(r'imgz/image6.png'), (100,100)), (800, 500))
+    #screen.blit(pg.transform.scale(pg.image.load(r'imgz/image7.jpeg'), (100,100)), (800, 600))
+    #screen.blit(pg.transform.scale(pg.image.load(r'imgz/image8.jpeg'), (100,100)), (800, 700))
     
     if(pg.mouse.get_pressed(3)[0] == True):
         tilePicked = pick_image(mouseX, mouseY)
