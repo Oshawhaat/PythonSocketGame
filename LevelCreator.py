@@ -76,8 +76,8 @@ while True:
 
 
     #TODO make sure this works #TODO magic number
-    for img, x_cor in zip(tile_images, range(0, 701, 100)):
-        screen.blit(pg.transform.scale(pg.image.load(img), (100,100)), (800, x_cor))
+    for index, image in enumerate(tile_images):
+        screen.blit(pg.transform.scale(pg.image.load(image), (100,100)), (800, index*100))
     #screen.blit(pg.transform.scale(pg.image.load(r'imgz/image1.jpeg'), (100,100)), (800, 0))
     #screen.blit(pg.transform.scale(pg.image.load(r'imgz/image2.jpeg'), (100,100)), (800, 100))
     #screen.blit(pg.transform.scale(pg.image.load(r'imgz/image3.jpeg'), (100,100)), (800, 200))
