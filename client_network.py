@@ -41,9 +41,10 @@ class Game_Object(pg.sprite.Sprite):
 
 
 class Player(Game_Object):
-    def __init__(self, player_dict: dict, group: Game_Object_Group):
+    def __init__(self, player_dict: dict, group: Game_Object_Group, main_player=False):
         super().__init__(player_dict, group)
         self.username = player_dict["username"]
+        self.main_player = main_player
 
     def draw_name(self):
         text = font.render(self.username, True, pg.color.THECOLORS["red"])
