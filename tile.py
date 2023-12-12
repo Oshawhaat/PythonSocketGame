@@ -20,7 +20,7 @@ class Tile(Game_Object):
 
 class Test_BG(Tile):
     solid = False
-    image_path = "imgs/2023_12_06_0gf_Kleki.png"
+    image_path = "imgs/bg.png"
 
 
 class Ground(Tile):
