@@ -105,7 +105,7 @@ class Network:
 
 
 def get_player_info():
-    available_images = os.listdir("imgz")
+    available_images = [img for img in os.listdir("imgz") if img.startswith("player_")]
     username = input("Enter a Username: ")
     image = None
 
