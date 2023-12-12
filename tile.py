@@ -1,5 +1,4 @@
 from game_object import Game_Object
-from dataclasses import dataclass
 
 
 class Tile(Game_Object):
