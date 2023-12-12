@@ -52,6 +52,12 @@ class Player(Game_Object):
         screen.blit(text, text_rect)
 
 
+class Tile(Game_Object):
+    def __init__(self, tile_dict: dict, group: pg.sprite.Group):
+        super().__init__(tile_dict, group)
+        self.solid = tile_dict["solid"]
+
+
 class Network:
     def __init__(self):
         self.client = socket.socket()
@@ -144,7 +150,7 @@ def redraw_screen(objects):
             case "player":
                 Player(obj_dict, group=object_group)
             case "tile":
-                pass  # TODO make tile class
+                Tile(obj_dict, group=object_group)
 
     object_group.draw(screen)
 
