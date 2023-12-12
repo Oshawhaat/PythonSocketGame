@@ -98,7 +98,6 @@ def threaded_client(conn):
                 case "info":
                     client_player.username, image_path = data
                     if image_path: client_player.set_image(image_path)
-                    print(data)
 
                 case "keys":
                     client_player.keys = data
