@@ -6,8 +6,8 @@ class Tile(Game_Object):
     solid: bool
     image_path: str
 
-    def __init__(self, image_path: str, pos: tuple[int, int]):
-        super().__init__(image_path, pos)
+    def __init__(self, pos: tuple[int, int]):
+        super().__init__(self.image_path, pos)
 
     def __str__(self):
         return "tile"
