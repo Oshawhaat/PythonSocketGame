@@ -1,6 +1,7 @@
 import os
 import pickle
 import socket
+import tile
 import pygame as pg
 import random as rnd
 from player import Player
@@ -27,6 +28,9 @@ print(f"found {len(image_paths)} images:\n", image_paths)
 players = pg.sprite.Group()
 tiles = pg.sprite.Group()
 clock = pg.time.Clock()
+
+tile = tile.Test_BG((0, 0))
+tiles.add(tile)
 
 
 class My_Exception(Exception):
