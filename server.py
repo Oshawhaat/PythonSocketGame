@@ -41,24 +41,24 @@ class My_Exception(Exception):
 
 def check_if_request(data, images, image_names, conn):
     try:
-        reply = data.decode('utf-8')
+        reply = data.decode('latin-1')
         if not reply: raise My_Exception(f"Reply was empty ({reply})")
-        if not reply[0] == 'r': raise My_Exception(f'Reply did not start with "r" ({reply})')
+        assert reply[0] == 'r'
         print(reply)
 
         match reply[1]:
             case "i":
                 image_index = int(reply[2:])
-                conn.send(images[image_index])
+                conn.sendall(images[image_index])
                 return True
             case "n":
                 name_index = int(reply[2:])
-                conn.send(image_names[name_index].encode('utf-8'))
+                conn.sendall(image_names[name_index].encode('latin-1'))
                 return True
 
         raise My_Exception("Could not process request!")
 
-    except UnicodeDecodeError:
+    except UnicodeDecodeError or AssertionError:
         return False
 
     except My_Exception as exception:
@@ -74,7 +74,7 @@ def threaded_client(conn):
     player_id = len(players.sprites())
     client_player = Player(player_image, player_pos, player_id)
 
-    conn.send(pickle.dumps((len(image_paths), player_id)))
+    conn.sendall(pickle.dumps((len(image_paths), player_id)))
     images = []
     image_names = []
     for file_path in image_paths:
@@ -105,7 +105,7 @@ def threaded_client(conn):
             players_list = [player.dictionarify() for player in players.sprites() if player.player_id != player_id]
             tiles_list = [tile.dictionarify() for tile in tiles.sprites()]
 
-            conn.send(pickle.dumps([client_player.dictionarify()] + players_list + tiles_list))
+            conn.sendall(pickle.dumps([client_player.dictionarify()] + players_list + tiles_list))
     except ConnectionResetError:
         pass
     print("Disconnected")
