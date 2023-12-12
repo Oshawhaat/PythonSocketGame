@@ -12,6 +12,16 @@ class Tile(Game_Object):
     def __str__(self):
         return "tile"
 
+    def dictionarify(self):
+        tile_dict = super().dictionarify()
+        tile_dict["solid"] = self.solid
+        return tile_dict
+
+
+class Test_BG(Tile):
+    solid = False
+    image_path = "imgs/2023_12_06_0gf_Kleki.png"
+
 
 class Ground(Tile):
     solid = False
