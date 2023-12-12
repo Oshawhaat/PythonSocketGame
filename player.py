@@ -4,11 +4,12 @@ from game_object import Game_Object
 
 
 class Player(Game_Object):
-    def __init__(self, image_path, pos):
+    def __init__(self, image_path, pos, player_id):
         super().__init__(image_path, pos)
         self.speed = 300  # pixels/second
         self.keys = {}
         self.username = ""
+        self.player_id = player_id
 
     def __str__(self):
         return "player"
