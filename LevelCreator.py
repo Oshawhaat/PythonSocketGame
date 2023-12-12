@@ -20,7 +20,7 @@ tile_images = ["imgs/image1.jpeg",
                "imgs/image5.jpeg",
                "imgs/image6.png",
                "imgs/image7.jpeg",
-               "imgs/image8.jpeg",]
+               "imgs/image8.jpeg"]
 
 
 def pick_image(mouseX, mouseY):  #TODO so many magic number
