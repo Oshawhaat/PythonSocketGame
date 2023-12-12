@@ -149,11 +149,10 @@ def redraw_screen(objects):
 
     main_player = Player(objects[0], group=player_group, main_player=True)
     for obj_dict in objects[1:]:
-        match obj_dict["class"]:
-            case "player":
-                Player(obj_dict, group=player_group)
-            case "tile":
-                Tile(obj_dict, group=object_group)
+        if obj_dict["class"] == "player":
+            Player(obj_dict, group=player_group)
+        if obj_dict["class"] == "tile":
+            Tile(obj_dict, group=object_group)
 
     for obj in object_group.sprites() + \
             [p for p in player_group.sprites() if not p.main_player]:
