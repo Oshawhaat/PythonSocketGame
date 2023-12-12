@@ -64,9 +64,9 @@ def threaded_client(conn):
     player_pos = 400, 400
     player_image = image_paths[rnd.randint(0, len(image_paths) - 1)]
     print("creating player with img:", player_image)
-    player = Player(player_image, player_pos)
-    print(player.image_path)
+
     player_id = len(players.sprites())
+    client_player = Player(player_image, player_pos, player_id)
 
     conn.send(pickle.dumps((len(image_paths), player_id)))
     images = []
@@ -77,7 +77,7 @@ def threaded_client(conn):
             images.append(file.read())
             image_names.append(file_name)
 
-    players.add(player)
+    players.add(client_player)
     try:
         while True:
             _data = conn.recv(4096)
@@ -90,20 +90,21 @@ def threaded_client(conn):
 
             match key:
                 case "info":
-                    player.username, image_path = data
-                    if image_path: player.set_image(image_path)
+                    client_player.username, image_path = data
+                    if image_path: client_player.set_image(image_path)
                     print(data)
 
                 case "keys":
-                    player.keys = data
+                    client_player.keys = data
 
-            players_list = [player.dictionarify() for player in players.sprites()]
+            players_list = [player.dictionarify() for player in players.sprites() if player.player_id != player_id]
             tiles_list = [tile.dictionarify() for tile in tiles.sprites()]
 
-            conn.send(pickle.dumps(players_list + tiles_list))
-    except ConnectionResetError: pass
+            conn.send(pickle.dumps([client_player.dictionarify()] + players_list + tiles_list))
+    except ConnectionResetError:
+        pass
     print("Disconnected")
-    players.remove(player)
+    players.remove(client_player)
 
 
 def threaded_game():
