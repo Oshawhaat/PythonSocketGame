@@ -86,10 +86,10 @@ class Network:
             os.remove(file)
 
         for x in range(num_images):
-            self.client.send(str.encode(f"ri{x}"))
+            self.client.send(f"ri{x}".encode('utf-8'))
             image = self.client.recv(4096000)
-            self.client.send(str.encode(f"rn{x}"))
-            image_name = self.client.recv(4096).decode()
+            self.client.send(f"rn{x}".encode('utf-8'))
+            image_name = self.client.recv(4096).decode('utf-8')
             with open(f"imgz/{image_name}", "xb") as file:
                 file.write(image)
 

@@ -41,7 +41,7 @@ class My_Exception(Exception):
 
 def check_if_request(data, images, image_names, conn):
     try:
-        reply = data.decode()
+        reply = data.decode('utf-8')
         if not reply: raise My_Exception(f"Reply was empty ({reply})")
         if not reply[0] == 'r': raise My_Exception(f'Reply did not start with "r" ({reply})')
         print(reply)
@@ -53,7 +53,7 @@ def check_if_request(data, images, image_names, conn):
                 return True
             case "n":
                 name_index = int(reply[2:])
-                conn.send(image_names[name_index].encode())
+                conn.send(image_names[name_index].encode('utf-8'))
                 return True
 
         raise My_Exception("Could not process request!")
