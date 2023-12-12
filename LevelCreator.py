@@ -91,7 +91,6 @@ while True:
         tilePicked = pick_image(mouseX, mouseY)
         grid[int(mouseX//GRID_TO_ARRAY)][int(mouseY//GRID_TO_ARRAY)] = 1 #TODO magic number
     
-    
     if(grid[mouseX//int(GRID_TO_ARRAY)][mouseY//int(GRID_TO_ARRAY)] == 1): #TODO what is this code for? it is not clear to me when reading it #TODO magic number
         screen.blit(pg.transform.scale(tilePicked,(100*SCALE,100*SCALE)), (100*(mouseX//50)*SCALE, 100*(mouseY//50)*SCALE)) #TODO magic number
     
