@@ -23,7 +23,9 @@ print("Server started, awaiting connections")
 
 # remove invisible .DS_Store file that does not seem to be able to be removed
 image_paths = ["imgs/" + image_name for image_name in os.listdir("imgs") if image_name != ".DS_Store"]
+player_image_paths = [image for image in image_paths if image.split("/")[1].startswith("player")]
 print(f"found {len(image_paths)} images:\n", image_paths)
+print(f"found {len(player_image_paths)} player images:\n", player_image_paths)
 
 players = pg.sprite.Group()
 tiles = pg.sprite.Group()
@@ -66,8 +68,8 @@ def check_if_request(data, images, image_names, conn):
 
 def threaded_client(conn):
     player_pos = 400, 400
-    player_image = image_paths[rnd.randint(0, len(image_paths) - 1)]
-    print("creating player with img:", player_image)
+    player_image = "imgs/loading.png"
+    print("creating new player with default image:", player_image)
 
     player_id = len(players.sprites())
     client_player = Player(player_image, player_pos, player_id)
