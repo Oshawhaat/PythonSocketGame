@@ -6,7 +6,7 @@ pg.init()
 SCREEN_WIDTH = 900
 SCREEN_HEIGHT = 800
 SCALE = 0.5
-GRID_TO_ARRAY = 100
+GRID_TO_ARRAY = 100 # TODO what does this variable do? name not clear
 
 AMOGUS = pg.image.load(r'imgz/amogus.png')
 
@@ -59,6 +59,7 @@ for row in range(10):  # TODO magic number
         grid[row].append(0)
 
 screen.fill((255, 255, 255))
+
 while True:
 
     mouseX, mouseY = pg.mouse.get_pos()
@@ -67,12 +68,12 @@ while True:
     pg.draw.line(screen, (0, 0, 0), (800, 0), (800, 800))
 
     i = 0
-    while i < 8 / SCALE + 1:  # TODO an iterating while loop is the same as a for loop
+    while i < 8 / SCALE + 1:  # TODO an iterating while loop is the same as a for loop #TODO magic number
         i += 1
         pg.draw.line(screen, (0, 0, 0), (i * SCALE * 100, 0), (i * SCALE * 100, 800))  # TODO magic number
 
     im = 0
-    while im < 8 / SCALE + 1:  # TODO ^(ln69) #TODO magic number
+    while im < 8 / SCALE + 1:  # TODO an iterating while loop is the same as a for loop #TODO magic number
         im += 1
         pg.draw.line(screen, (0, 0, 0), (0, im * SCALE * 100), (800, im * SCALE * 100))  # TODO magic number
 
