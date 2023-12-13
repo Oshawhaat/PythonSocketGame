@@ -27,24 +27,9 @@ tile_images = [pg.image.load(image) for image in tile_image_paths]
 def pick_image(mouseX, mouseY):  # TODO so many magic number
     if mouseX < 800: return
 
-    # TODO this must be compactable
-    if mouseY <= 100:
-        tilePicked = tile_images[0]
-    if 100 < mouseY <= 200:
-        tilePicked = tile_images[1]
-    if 200 < mouseY <= 300:
-        tilePicked = tile_images[2]
-    if 300 < mouseY <= 400:
-        tilePicked = tile_images[3]
-    if 400 < mouseY <= 500:
-        tilePicked = tile_images[4]
-    if 500 < mouseY <= 600:
-        tilePicked = tile_images[5]
-    if 600 < mouseY <= 700:
-        tilePicked = tile_images[6]
-    if mouseY >= 700:
-        tilePicked = tile_images[7]
-    return tilePicked
+    for ind, image in enumerate(tile_images):
+        if mouseY <= (ind+1) * 100:
+            return image
 
 
 # --- Create grid of numbers
@@ -80,7 +65,7 @@ while True:
         pg.draw.line(screen, (0, 0, 0), (0, im * SCALE * 100), (800, im * SCALE * 100))  # TODO magic numbers
 
     for index, image in enumerate(tile_images):
-        screen.blit(pg.transform.scale(pg.image.load(image), (100, 100)), (800, index * 100)) # TODO magic numbers
+        screen.blit(pg.transform.scale(image, (100, 100)), (800, index * 100)) # TODO magic numbers
 
     if lmb:
         picked = pick_image(mouseX, mouseY)
