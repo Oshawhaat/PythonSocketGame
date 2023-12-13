@@ -6,7 +6,7 @@ pg.init()
 SCREEN_WIDTH = 900
 SCREEN_HEIGHT = 800
 SCALE = 0.5
-GRID_TO_ARRAY = 100 # TODO what does this variable do? name not clear
+GRID_TO_ARRAY = 100 # TODO what is this constant for? name not clear
 
 AMOGUS = pg.image.load(r'imgz/amogus.png')
 
