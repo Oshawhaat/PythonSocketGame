@@ -55,23 +55,24 @@ for row in range(10):  # TODO magic number
     grid.append([])
     # Loop for each column
     for column in range(10):  # TODO magic number
-        # Add a the number zero to the current row
+        # Add a number zero to the current row
         grid[row].append(0)
 
 screen.fill((255, 255, 255))
 while True:
 
     mouseX, mouseY = pg.mouse.get_pos()
+    lmb, rmb, mmb = pg.mouse.get_pressed(3)
 
     pg.draw.line(screen, (0, 0, 0), (800, 0), (800, 800))
 
     i = 0
-    while (i < 8 / SCALE + 1):  # TODO an iterating while loop is the same as a for loop
+    while i < 8 / SCALE + 1:  # TODO an iterating while loop is the same as a for loop
         i += 1
         pg.draw.line(screen, (0, 0, 0), (i * SCALE * 100, 0), (i * SCALE * 100, 800))  # TODO magic number
 
     im = 0
-    while (im < 8 / SCALE + 1):  # TODO ^(ln69) #TODO magic number
+    while im < 8 / SCALE + 1:  # TODO ^(ln69) #TODO magic number
         im += 1
         pg.draw.line(screen, (0, 0, 0), (0, im * SCALE * 100), (800, im * SCALE * 100))  # TODO magic number
 
@@ -87,12 +88,12 @@ while True:
     # screen.blit(pg.transform.scale(pg.image.load(r'imgz/image7.jpeg'), (100,100)), (800, 600))
     # screen.blit(pg.transform.scale(pg.image.load(r'imgz/image8.jpeg'), (100,100)), (800, 700))
 
-    if (pg.mouse.get_pressed(3)[0] == True):
+    if lmb:
         tilePicked = pick_image(mouseX, mouseY)
         grid[int(mouseX // GRID_TO_ARRAY)][int(mouseY // GRID_TO_ARRAY)] = 1  # TODO magic number
 
-    if (grid[mouseX // int(GRID_TO_ARRAY)][mouseY // int(
-            GRID_TO_ARRAY)] == 1):  # TODO what is this code for? it is not clear to me when reading it #TODO magic number
+    # TODO what is this code for? it is not clear to me when reading it #TODO magic number
+    if grid[mouseX // int(GRID_TO_ARRAY)][mouseY // int(GRID_TO_ARRAY)] == 1:
         screen.blit(pg.transform.scale(tilePicked, (100 * SCALE, 100 * SCALE)),
                     (100 * (mouseX // 50) * SCALE, 100 * (mouseY // 50) * SCALE))  # TODO magic number
 
