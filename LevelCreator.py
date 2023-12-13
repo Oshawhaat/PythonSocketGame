@@ -85,7 +85,7 @@ while True:
         if picked:
             tilePicked = picked
         else:
-            grid[int(mouseX // GRID_TO_ARRAY)][int(mouseY // GRID_TO_ARRAY)] = 1  # TODO magic number
+            grid[mouseX // GRID_TO_ARRAY][mouseY // GRID_TO_ARRAY] = 1  # TODO magic number
             screen.blit(pg.transform.scale(tilePicked, (100 * SCALE, 100 * SCALE)),
                         (100 * (mouseX // 50) * SCALE, 100 * (mouseY // 50) * SCALE))
 
