@@ -3,14 +3,15 @@ import pygame as pg
 
 pg.init()
 
-SCREEN_WIDTH = 900
-SCREEN_HEIGHT = 800
+MAIN_SCREEN_WIDTH = 800
+MAIN_SCREEN_HEIGHT = 800
+SIDE_MENU_WIDTH = 100
 SCALE = 0.5 # TODO what is this constant for? name not clear
 GRID_TO_ARRAY = 100 # TODO what is this constant for? name not clear
 TILES_PER_ROW = 10
 TILES_PER_COLUMN = 10
 
-screen = pg.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+screen = pg.display.set_mode((MAIN_SCREEN_WIDTH + SIDE_MENU_WIDTH, MAIN_SCREEN_HEIGHT))
 picked_tile = pg.image.load(r'imgz/image1.jpeg')
 
 tile_image_paths = ["imgz/Image1.jpeg",
@@ -24,8 +25,8 @@ tile_image_paths = ["imgz/Image1.jpeg",
 tile_images = [pg.image.load(image) for image in tile_image_paths]
 
 
-def pick_image(mouseX, mouseY):  # TODO so many magic number
-    if mouseX < 800: return
+def pick_image():
+    if mouseX < MAIN_SCREEN_WIDTH: return
 
     for ind, image in enumerate(tile_images):
         if mouseY <= (ind+1) * 100:
@@ -68,7 +69,7 @@ while True:
         screen.blit(pg.transform.scale(image, (100, 100)), (800, index * 100)) # TODO magic numbers
 
     if lmb:
-        picked = pick_image(mouseX, mouseY)
+        picked = pick_image()
         if picked:
             picked_tile = picked
         else:
