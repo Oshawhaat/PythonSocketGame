@@ -5,10 +5,10 @@ pg.init()
 
 SCREEN_WIDTH = 900
 SCREEN_HEIGHT = 800
-SCALE = 0.5
+SCALE = 0.5 # TODO what is this constant for? name not clear
 GRID_TO_ARRAY = 100 # TODO what is this constant for? name not clear
-
-AMOGUS = pg.image.load(r'imgz/amogus.png')
+TILES_PER_ROW = 10
+TILES_PER_COLUMN = 10
 
 screen = pg.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 tilePicked = pg.image.load(r'imgz/image1.jpeg')
@@ -49,12 +49,12 @@ def pick_image(mouseX, mouseY):  # TODO so many magic number
 # Create an empty list
 grid = []
 # Loop for each row
-for row in range(10):  # TODO magic number
+for row in range(TILES_PER_COLUMN):  # TODO magic number
     # For each row, create a list that will
     # represent an entire row
     grid.append([])
     # Loop for each column
-    for column in range(10):  # TODO magic number
+    for column in range(TILES_PER_ROW):  # TODO magic number
         # Add a number zero to the current row
         grid[row].append(0)
 
@@ -73,30 +73,21 @@ while True:
         pg.draw.line(screen, (0, 0, 0), (i * SCALE * 100, 0), (i * SCALE * 100, 800))  # TODO magic number
 
     im = 0
-    while im < 8 / SCALE + 1:  # TODO an iterating while loop is the same as a for loop #TODO magic number
+    while im < 8 / SCALE + 1:  # TODO an iterating while loop is the same as a for loop # TODO magic number
         im += 1
         pg.draw.line(screen, (0, 0, 0), (0, im * SCALE * 100), (800, im * SCALE * 100))  # TODO magic number
 
-    # TODO make sure this works #TODO magic number
     for index, image in enumerate(tile_images):
-        screen.blit(pg.transform.scale(pg.image.load(image), (100, 100)), (800, index * 100))
-    # screen.blit(pg.transform.scale(pg.image.load(r'imgz/image1.jpeg'), (100,100)), (800, 0))
-    # screen.blit(pg.transform.scale(pg.image.load(r'imgz/image2.jpeg'), (100,100)), (800, 100))
-    # screen.blit(pg.transform.scale(pg.image.load(r'imgz/image3.jpeg'), (100,100)), (800, 200))
-    # screen.blit(pg.transform.scale(pg.image.load(r'imgz/image4.jpeg'), (100,100)), (800, 300))
-    # screen.blit(pg.transform.scale(pg.image.load(r'imgz/image5.jpeg'), (100,100)), (800, 400))
-    # screen.blit(pg.transform.scale(pg.image.load(r'imgz/image6.png'), (100,100)), (800, 500))
-    # screen.blit(pg.transform.scale(pg.image.load(r'imgz/image7.jpeg'), (100,100)), (800, 600))
-    # screen.blit(pg.transform.scale(pg.image.load(r'imgz/image8.jpeg'), (100,100)), (800, 700))
+        screen.blit(pg.transform.scale(pg.image.load(image), (100, 100)), (800, index * 100)) # TODO magic number
 
     if lmb:
-        tilePicked = pick_image(mouseX, mouseY)
-        grid[int(mouseX // GRID_TO_ARRAY)][int(mouseY // GRID_TO_ARRAY)] = 1  # TODO magic number
-
-    # TODO what is this code for? it is not clear to me when reading it #TODO magic number
-    if grid[mouseX // int(GRID_TO_ARRAY)][mouseY // int(GRID_TO_ARRAY)] == 1:
-        screen.blit(pg.transform.scale(tilePicked, (100 * SCALE, 100 * SCALE)),
-                    (100 * (mouseX // 50) * SCALE, 100 * (mouseY // 50) * SCALE))  # TODO magic number
+        picked = pick_image(mouseX, mouseY)
+        if picked:
+            tilePicked = picked
+        else:
+            grid[int(mouseX // GRID_TO_ARRAY)][int(mouseY // GRID_TO_ARRAY)] = 1  # TODO magic number
+            screen.blit(pg.transform.scale(tilePicked, (100 * SCALE, 100 * SCALE)),
+                        (100 * (mouseX // 50) * SCALE, 100 * (mouseY // 50) * SCALE))
 
     for event in pg.event.get():
         if event.type == pg.QUIT:
