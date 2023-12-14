@@ -64,7 +64,7 @@ while True:
         pg.draw.line(screen, pg.colordict.THECOLORS["black"], (0, y), (MAIN_SCREEN_WIDTH, y))
 
     for index, image in enumerate(tile_images):
-        scale = (MAIN_SCREEN_HEIGHT / len(tile_images),) * 2
+        scale = (MAIN_SCREEN_HEIGHT / len(tile_images),) * 2 # make tuple of number
         scaled_image = pg.transform.scale(image, scale)
         screen.blit(scaled_image, (MAIN_SCREEN_WIDTH, index * GRID_TO_ARRAY))
 
