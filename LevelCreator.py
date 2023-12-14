@@ -25,7 +25,7 @@ def pick_image():
     if mouseX < MAIN_SCREEN_WIDTH: return
 
     for ind, image in enumerate(tile_images):
-        if mouseY <= (ind + 1) * 100:  # TODO magic number
+        if mouseY <= (ind + 1) * SIDE_TILE_HEIGHT:  # TODO why add 1?
             return image
 
 
