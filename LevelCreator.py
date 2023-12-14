@@ -67,7 +67,7 @@ while True:
     for index, image in enumerate(tile_images):
         scale = (MAIN_SCREEN_HEIGHT / len(tile_images),) * 2
         scaled_image = pg.transform.scale(image, scale)
-        screen.blit(scaled_image, (800, index * 100)) # TODO magic numbers
+        screen.blit(scaled_image, (MAIN_SCREEN_WIDTH, index * GRID_TO_ARRAY))
 
     if lmb:
         picked = pick_image()
