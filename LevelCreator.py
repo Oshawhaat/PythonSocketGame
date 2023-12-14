@@ -64,14 +64,14 @@ while True:
     for index, image in enumerate(tile_images):
         scale = (SIDE_TILE_HEIGHT,) * 2  # make tuple of number
         scaled_image = pg.transform.scale(image, scale)
-        screen.blit(scaled_image, (MAIN_SCREEN_WIDTH, index * GRID_TO_ARRAY))
+        screen.blit(scaled_image, (MAIN_SCREEN_WIDTH, index * SIDE_TILE_HEIGHT))
 
     if lmb:
         picked = pick_image()
         if picked:
             picked_tile = picked
         else:
-            grid[mouseX // GRID_TO_ARRAY][mouseY // GRID_TO_ARRAY] = picked_tile
+            grid[mouseX // SIDE_TILE_HEIGHT][mouseY // SIDE_TILE_HEIGHT] = picked_tile
             screen.blit(pg.transform.scale(picked_tile, (TILE_WIDTH, TILE_HEIGHT)),
                         ((mouseX // TILE_WIDTH) * TILE_HEIGHT, (mouseY // TILE_HEIGHT) * TILE_HEIGHT))
 
