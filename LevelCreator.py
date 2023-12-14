@@ -7,7 +7,6 @@ pg.init()
 MAIN_SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 800
 SIDE_MENU_WIDTH = 100
-GRID_TO_ARRAY = 100  # TODO what is this constant for? name not clear
 TILES_PER_ROW = 16
 TILES_PER_COLUMN = 16
 
