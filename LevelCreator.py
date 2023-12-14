@@ -37,14 +37,14 @@ def pick_image():
 # Create an empty list
 grid = []
 # Loop for each row
-for row in range(TILES_PER_COLUMN):  # TODO magic number
+for row in range(TILES_PER_COLUMN):
     # For each row, create a list that will
     # represent an entire row
     grid.append([])
     # Loop for each column
-    for column in range(TILES_PER_ROW):  # TODO magic number
-        # Add a number zero to the current row
-        grid[row].append(0)
+    for column in range(TILES_PER_ROW):
+        # Add a None object to the current row
+        grid[row].append(None)
 
 screen.fill((255, 255, 255))
 
