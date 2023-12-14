@@ -65,7 +65,9 @@ while True:
         pg.draw.line(screen, pg.colordict.THECOLORS["black"], (0, y), (MAIN_SCREEN_WIDTH, y))
 
     for index, image in enumerate(tile_images):
-        screen.blit(pg.transform.scale(image, (100, 100)), (800, index * 100)) # TODO magic numbers
+        scale = (MAIN_SCREEN_HEIGHT / len(tile_images),) * 2
+        scaled_image = pg.transform.scale(image, scale)
+        screen.blit(scaled_image, (800, index * 100)) # TODO magic numbers
 
     if lmb:
         picked = pick_image()
