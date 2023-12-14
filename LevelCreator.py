@@ -55,15 +55,11 @@ while True:
 
     pg.draw.line(screen, (0, 0, 0), (800, 0), (800, 800))
 
-    i = 0
-    while i < 8 / SCALE + 1:  # TODO an iterating while loop is the same as a for loop #TODO magic number
-        i += 1
-        pg.draw.line(screen, (0, 0, 0), (i * SCALE * 100, 0), (i * SCALE * 100, 800))  # TODO magic number
+    for x in range(0, MAIN_SCREEN_WIDTH, TILE_WIDTH):
+        pg.draw.line(screen, pg.colordict.THECOLORS["black"], (x, 0), (x, MAIN_SCREEN_HEIGHT))
 
-    im = 0
-    while im < 8 / SCALE + 1:  # TODO an iterating while loop is the same as a for loop # TODO magic number
-        im += 1
-        pg.draw.line(screen, (0, 0, 0), (0, im * SCALE * 100), (800, im * SCALE * 100))  # TODO magic numbers
+    for y in range(0, MAIN_SCREEN_HEIGHT, TILE_HEIGHT):
+        pg.draw.line(screen, pg.colordict.THECOLORS["black"], (0, y), (MAIN_SCREEN_WIDTH, y))
 
     for index, image in enumerate(tile_images):
         screen.blit(pg.transform.scale(image, (100, 100)), (800, index * 100)) # TODO magic numbers
