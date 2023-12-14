@@ -8,8 +8,11 @@ MAIN_SCREEN_HEIGHT = 800
 SIDE_MENU_WIDTH = 100
 SCALE = 0.5 # TODO what is this constant for? name not clear
 GRID_TO_ARRAY = 100 # TODO what is this constant for? name not clear
-TILES_PER_ROW = 10
-TILES_PER_COLUMN = 10
+TILES_PER_ROW = 16
+TILES_PER_COLUMN = 16
+
+TILE_WIDTH = MAIN_SCREEN_WIDTH // TILES_PER_ROW
+TILE_HEIGHT = MAIN_SCREEN_HEIGHT // TILES_PER_COLUMN
 
 screen = pg.display.set_mode((MAIN_SCREEN_WIDTH + SIDE_MENU_WIDTH, MAIN_SCREEN_HEIGHT))
 picked_tile = pg.image.load(r'imgz/image1.jpeg')
