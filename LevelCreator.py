@@ -1,37 +1,32 @@
+import os
 import pickle
 import pygame as pg
 
 pg.init()
 
 MAIN_SCREEN_WIDTH = 800
-MAIN_SCREEN_HEIGHT = 800
+SCREEN_HEIGHT = 800
 SIDE_MENU_WIDTH = 100
 GRID_TO_ARRAY = 100 # TODO what is this constant for? name not clear
 TILES_PER_ROW = 16
 TILES_PER_COLUMN = 16
 
+TILE_IMAGE_PATHS = [image for image in os.listdir("imgz") if image.startswith("tile_")]
+SIDE_TILE_HEIGHT = SCREEN_HEIGHT // len(TILE_IMAGE_PATHS)
 TILE_WIDTH = MAIN_SCREEN_WIDTH // TILES_PER_ROW
-TILE_HEIGHT = MAIN_SCREEN_HEIGHT // TILES_PER_COLUMN
+TILE_HEIGHT = SCREEN_HEIGHT // TILES_PER_COLUMN
 
-screen = pg.display.set_mode((MAIN_SCREEN_WIDTH + SIDE_MENU_WIDTH, MAIN_SCREEN_HEIGHT))
+screen = pg.display.set_mode((MAIN_SCREEN_WIDTH + SIDE_TILE_HEIGHT, SCREEN_HEIGHT))
 picked_tile = pg.image.load(r'imgz/image1.jpeg')
 
-tile_image_paths = ["imgz/Image1.jpeg",
-                    "imgz/Image2.jpeg",
-                    "imgz/Image3.jpeg",
-                    "imgz/Image4.jpeg",
-                    "imgz/Image5.jpeg",
-                    "imgz/Image6.png",
-                    "imgz/Image7.jpeg",
-                    "imgz/Image8.jpeg"]
-tile_images = [pg.image.load(image) for image in tile_image_paths]
+tile_images = [pg.image.load(image) for image in TILE_IMAGE_PATHS]
 
 
 def pick_image():
     if mouseX < MAIN_SCREEN_WIDTH: return
 
     for ind, image in enumerate(tile_images):
-        if mouseY <= (ind+1) * 100:
+        if mouseY <= (ind+1) * 100: # TODO magic number
             return image
 
 
@@ -58,13 +53,13 @@ while True:
     pg.draw.line(screen, (0, 0, 0), (800, 0), (800, 800))
 
     for x in range(0, MAIN_SCREEN_WIDTH, TILE_WIDTH):
-        pg.draw.line(screen, pg.colordict.THECOLORS["black"], (x, 0), (x, MAIN_SCREEN_HEIGHT))
+        pg.draw.line(screen, pg.colordict.THECOLORS["black"], (x, 0), (x, SCREEN_HEIGHT))
 
-    for y in range(0, MAIN_SCREEN_HEIGHT, TILE_HEIGHT):
+    for y in range(0, SCREEN_HEIGHT, TILE_HEIGHT):
         pg.draw.line(screen, pg.colordict.THECOLORS["black"], (0, y), (MAIN_SCREEN_WIDTH, y))
 
     for index, image in enumerate(tile_images):
-        scale = (MAIN_SCREEN_HEIGHT / len(tile_images),) * 2 # make tuple of number
+        scale = (SIDE_TILE_HEIGHT,) * 2 # make tuple of number
         scaled_image = pg.transform.scale(image, scale)
         screen.blit(scaled_image, (MAIN_SCREEN_WIDTH, index * GRID_TO_ARRAY))
 
