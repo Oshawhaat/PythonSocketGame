@@ -75,8 +75,8 @@ while True:
             picked_tile = picked
         else:
             grid[mouseX // GRID_TO_ARRAY][mouseY // GRID_TO_ARRAY] = picked_tile
-            screen.blit(pg.transform.scale(picked_tile, (100 * SCALE, 100 * SCALE)),
-                        (100 * (mouseX // 50) * SCALE, 100 * (mouseY // 50) * SCALE)) # TODO magic numbers
+            screen.blit(pg.transform.scale(picked_tile, (TILE_WIDTH, TILE_HEIGHT)),
+                        ((mouseX // TILE_WIDTH) * TILE_HEIGHT, (mouseY // TILE_HEIGHT) * TILE_HEIGHT))
 
     for event in pg.event.get():
         if event.type == pg.QUIT:
