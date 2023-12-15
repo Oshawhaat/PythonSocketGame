@@ -11,11 +11,11 @@ TILES_PER_ROW = 16
 TILES_PER_COLUMN = 16
 
 TILE_IMAGE_PATHS = [f"imgz/{image}" for image in os.listdir("imgz") if image.startswith("tile_")]
-SIDE_TILE_HEIGHT = SCREEN_HEIGHT // len(TILE_IMAGE_PATHS)
+SIDE_TILE_LENGTH = SCREEN_HEIGHT // len(TILE_IMAGE_PATHS)
 TILE_WIDTH = MAIN_SCREEN_WIDTH // TILES_PER_ROW
 TILE_HEIGHT = SCREEN_HEIGHT // TILES_PER_COLUMN
 
-screen = pg.display.set_mode((MAIN_SCREEN_WIDTH + SIDE_TILE_HEIGHT, SCREEN_HEIGHT))
+screen = pg.display.set_mode((MAIN_SCREEN_WIDTH + SIDE_TILE_LENGTH, SCREEN_HEIGHT))
 picked_tile = pg.image.load(TILE_IMAGE_PATHS[0])
 
 tile_images = [pg.image.load(image) for image in TILE_IMAGE_PATHS]
@@ -25,7 +25,7 @@ def pick_image():
     if mouseX < MAIN_SCREEN_WIDTH: return
 
     for ind, image in enumerate(tile_images):
-        if mouseY <= (ind + 1) * SIDE_TILE_HEIGHT:  # TODO why add 1?
+        if mouseY <= (ind + 1) * SIDE_TILE_LENGTH:  # TODO why add 1?
             return image
 
 
@@ -61,16 +61,16 @@ while True:
         pg.draw.line(screen, pg.colordict.THECOLORS["black"], (0, y), (MAIN_SCREEN_WIDTH, y))
 
     for index, image in enumerate(tile_images):
-        scale = (SIDE_TILE_HEIGHT,) * 2  # make tuple of number
+        scale = (SIDE_TILE_LENGTH,) * 2  # make tuple of number
         scaled_image = pg.transform.scale(image, scale)
-        screen.blit(scaled_image, (MAIN_SCREEN_WIDTH, index * SIDE_TILE_HEIGHT))
+        screen.blit(scaled_image, (MAIN_SCREEN_WIDTH, index * SIDE_TILE_LENGTH))
 
     if lmb:
         picked = pick_image()
         if picked:
             picked_tile = picked
         else:
-            grid[mouseX // SIDE_TILE_HEIGHT][mouseY // SIDE_TILE_HEIGHT] = picked_tile
+            grid[mouseX // SIDE_TILE_LENGTH][mouseY // SIDE_TILE_LENGTH] = picked_tile
             screen.blit(pg.transform.scale(picked_tile, (TILE_WIDTH, TILE_HEIGHT)),
                         ((mouseX // TILE_WIDTH) * TILE_HEIGHT, (mouseY // TILE_HEIGHT) * TILE_HEIGHT))
 
