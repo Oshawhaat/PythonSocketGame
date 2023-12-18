@@ -63,7 +63,7 @@ class Network:
     def __init__(self):
         self.client = socket.socket()
         # self.server = "127.0.0.1"
-        self.server = "10.234.7.127"
+        self.server = "10.234.12.200"
         self.port = 9999
         self.address = (self.server, self.port)
         try:

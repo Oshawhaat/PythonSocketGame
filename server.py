@@ -3,12 +3,11 @@ import pickle
 import socket
 import tile
 import pygame as pg
-import random as rnd
 from player import Player
 from _thread import start_new_thread
 
 # server = "127.0.0.1"
-server = "10.234.7.127"
+server = "10.234.12.200"
 port = 9999
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -44,7 +43,6 @@ def check_if_request(data, images, image_names, conn):
         reply = data.decode('latin-1')
         if not reply: raise My_Exception(f"Reply was empty ({reply})")
         assert reply[0] == 'r'
-        print(reply)
 
         match reply[1]:
             case "i":
@@ -58,8 +56,8 @@ def check_if_request(data, images, image_names, conn):
 
         raise My_Exception("Could not process request!")
 
-    except UnicodeDecodeError or AssertionError:
-        return False
+    except UnicodeDecodeError: return False
+    except AssertionError: return False
 
     except My_Exception as exception:
         print(exception)
