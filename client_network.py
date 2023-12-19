@@ -171,6 +171,8 @@ def redraw_screen(objects):
         obj.rect.y -= main_player.y
     tile_group.draw(screen)
     player_group.draw(screen)
+    enemy_group.draw(screen)
+    main_player_group.draw(screen)
 
     for player in player_group:
         player.draw_name()
