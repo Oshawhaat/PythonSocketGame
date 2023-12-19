@@ -58,8 +58,10 @@ def check_if_request(data, images, image_names, conn):
 
         raise My_Exception("Could not process request!")
 
-    except UnicodeDecodeError: return False
-    except AssertionError: return False
+    except UnicodeDecodeError:
+        return False
+    except AssertionError:
+        return False
 
     except My_Exception as exception:
         print(exception)
@@ -127,9 +129,14 @@ def threaded_game():
         enemies.update(delta_time, players)
 
 
-start_new_thread(threaded_game, ())
-while True:
-    connection, address = s.accept()
-    print("Connected to:", address)
+def main():
+    start_new_thread(threaded_game, ())
+    while True:
+        connection, address = s.accept()
+        print("Connected to:", address)
 
-    start_new_thread(threaded_client, (connection,))
+        start_new_thread(threaded_client, (connection,))
+
+
+if __name__ == "__main__":
+    main()
