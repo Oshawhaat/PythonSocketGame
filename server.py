@@ -124,6 +124,7 @@ def threaded_game():
     while True:
         delta_time = clock.tick(60) / 1000
         players.update(delta_time)
+        enemies.update(delta_time, players)
 
 
 start_new_thread(threaded_game, ())
