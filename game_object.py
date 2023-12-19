@@ -1,3 +1,4 @@
+import math
 import pygame as pg
 
 
@@ -35,3 +36,16 @@ class Game_Object(pg.sprite.Sprite):
         self.image = pg.image.load(image_path)
         self.rect = self.image.get_rect()
         self.rect.center = (0, 0)
+
+    def get_dist(self, other, ret_tuple=False):
+        x_dist = abs(other.x - self.x)
+        y_dist = abs(other.y - self.y)
+
+        if ret_tuple: return x_dist, y_dist
+
+        dist = math.sqrt((x_dist ** 2) + (y_dist ** 2))
+        return dist
+
+    def on_screen(self, other):
+        x_dist, y_dist = self.get_dist(other, ret_tuple=True)
+        return x_dist <= 400 and y_dist <= 400

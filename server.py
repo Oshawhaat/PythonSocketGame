@@ -28,6 +28,7 @@ print(f"found {len(player_image_paths)} player images:\n", player_image_paths)
 
 players = pg.sprite.Group()
 tiles = pg.sprite.Group()
+
 clock = pg.time.Clock()
 
 tile = tile.Test_BG((0, 0))
@@ -103,7 +104,9 @@ def threaded_client(conn):
             players_list = [player.dictionarify() for player in players.sprites() if player.player_id != player_id]
             tiles_list = [tile.dictionarify() for tile in tiles.sprites()]
 
-            conn.sendall(pickle.dumps([client_player.dictionarify()] + players_list + tiles_list))
+            entities_list = [client_player.dictionarify()] + players_list + tiles_list
+
+            conn.sendall(pickle.dumps([entity for entity in entities_list if entity.on_screen(client_player)]))
     except ConnectionResetError:
         pass
     print("Disconnected")
