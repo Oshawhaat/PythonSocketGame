@@ -151,7 +151,6 @@ def redraw_screen(objects):
     if not objects:
         return
 
-    object_group = Game_Object_Group()
     player_group = Game_Object_Group()
     main_player_group = pg.sprite.GroupSingle()
     tile_group = Game_Object_Group()
