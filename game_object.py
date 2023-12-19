@@ -20,6 +20,9 @@ class Game_Object(pg.sprite.Sprite):
         self.rect.center = pos
 
     def dictionarify(self):
+        """
+        returns a dictionary representing this object
+        """
         image_name = self.image_path.split('/')[1]
         rect = (*self.rect.topleft, *self.rect.size)
         obj_dict = {"image_name": image_name,
@@ -38,8 +41,12 @@ class Game_Object(pg.sprite.Sprite):
         self.rect.center = (0, 0)
 
     def get_dist(self, other, ret_tuple=False):
-        x_dist = abs(other.x - self.x)
-        y_dist = abs(other.y - self.y)
+        """
+        returns the distance from this object to other
+        :param ret_tuple: returns the distance as a vector
+        """
+        x_dist = other.x - self.x
+        y_dist = other.y - self.y
 
         if ret_tuple: return x_dist, y_dist
 
