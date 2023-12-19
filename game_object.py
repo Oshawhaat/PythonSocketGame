@@ -26,12 +26,12 @@ class Game_Object(pg.sprite.Sprite):
         image_name = self.image_path.split('/')[1]
         rect = (*self.rect.topleft, *self.rect.size)
         obj_dict = {"image_name": image_name,
-                       "rect": rect,
-                       "class": str(self),
-                       "x": self.x,
-                       "y": self.y,
-                       "max_health": self.max_health,
-                       "health": self.health}
+                    "rect":       rect,
+                    "class":      str(self),
+                    "x":          self.x,
+                    "y":          self.y,
+                    "max_health": self.max_health,
+                    "health":     self.health}
         return obj_dict
 
     def set_image(self, image_path):
