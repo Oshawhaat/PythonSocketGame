@@ -53,6 +53,12 @@ class Game_Object(pg.sprite.Sprite):
         dist = math.sqrt((x_dist ** 2) + (y_dist ** 2))
         return dist
 
-    def on_screen(self, other):
+    def get_dir(self, other):
+        """
+        returns the direction, being the normalized vector of distance, from this object to the other
+        """
         x_dist, y_dist = self.get_dist(other, ret_tuple=True)
-        return x_dist <= 400 and y_dist <= 400
+        magnitude = self.get_dist(other)
+        x_norm = x_dist / magnitude
+        y_norm = y_dist / magnitude
+        return x_norm, y_norm
