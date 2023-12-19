@@ -1,4 +1,3 @@
-import pygame as pg
 from game_object import Game_Object
 
 
@@ -35,3 +34,8 @@ class Enemy(Game_Object):
 
         return nearest_player
 
+
+class Test_Enemy(Enemy):
+    image_path = "imgs/enemy.png"
+    speed = 100
+    aggro_range = 400
