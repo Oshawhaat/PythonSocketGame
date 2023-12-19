@@ -2,7 +2,9 @@ import os
 import pickle
 import socket
 import tile
+import enemy
 import pygame as pg
+
 from player import Player
 from _thread import start_new_thread
 
@@ -34,6 +36,9 @@ clock = pg.time.Clock()
 
 tile = tile.Test_BG((0, 0))
 tiles.add(tile)
+
+enemy = enemy.Test_Enemy((0, 0))
+enemies.add(enemy)
 
 
 class My_Exception(Exception):
@@ -126,7 +131,7 @@ def threaded_game():
     while True:
         delta_time = clock.tick(60) / 1000
         players.update(delta_time)
-        enemies.update(delta_time, players)
+        enemies.update(delta_time, players.sprites())
 
 
 def main():
