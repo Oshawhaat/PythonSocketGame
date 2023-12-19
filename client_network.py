@@ -62,6 +62,10 @@ class Tile(Game_Object):
         self.solid = tile_dict["solid"]
 
 
+class Enemy(Game_Object):
+    pass
+
+
 class Network:
     def __init__(self):
         self.client = socket.socket()
