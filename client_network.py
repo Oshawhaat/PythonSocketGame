@@ -44,7 +44,7 @@ class Game_Object(pg.sprite.Sprite):
 
 
 class Player(Game_Object):
-    def __init__(self, player_dict: dict, group: Game_Object_Group, main_player=False):
+    def __init__(self, player_dict: dict, group: pg.sprite.Group | pg.sprite.GroupSingle, main_player=False):
         super().__init__(player_dict, group)
         self.username = player_dict["username"]
         self.main_player = main_player
@@ -149,6 +149,9 @@ def redraw_screen(objects):
 
     object_group = Game_Object_Group()
     player_group = Game_Object_Group()
+    main_player_group = pg.sprite.GroupSingle()
+    tile_group = Game_Object_Group()
+    enemy_group = Game_Object_Group()
 
     main_player = Player(objects[0], group=player_group, main_player=True)
     for obj_dict in objects[1:]:
@@ -157,11 +160,10 @@ def redraw_screen(objects):
         if obj_dict["class"] == "tile":
             Tile(obj_dict, group=object_group)
 
-    for obj in object_group.sprites() + \
-            [p for p in player_group.sprites() if not p.main_player]:
+    for obj in tile_group.sprites() + [p for p in player_group.sprites() if not p.main_player] + enemy_group.sprites():
         obj.rect.x -= main_player.x
         obj.rect.y -= main_player.y
-    object_group.draw(screen)
+    tile_group.draw(screen)
     player_group.draw(screen)
 
     for player in player_group:
