@@ -33,8 +33,11 @@ class Game_Object(pg.sprite.Sprite):
         self.rect = pg.Rect(*obj_dict["rect"])
         self.x = obj_dict["x"]
         self.y = obj_dict["y"]
-        self.rect.x += SCREEN_WIDTH / 2
-        self.rect.y += SCREEN_HEIGHT / 2
+        self.rect.x += (SCREEN_WIDTH / 2)
+        self.rect.y += (SCREEN_HEIGHT / 2)
+        if obj_dict["class"] != "player":
+            self.rect.x += self.x
+            self.rect.y += self.y
         self.image = pg.image.load(f"imgz/{obj_dict['image_name']}")
         if obj_dict["health"]:
             self.health = obj_dict["health"]
