@@ -18,8 +18,8 @@ class Enemy(Game_Object):
         if not self.curr_target: return
 
         dir_x, dir_y = self.get_dir(self.curr_target)
-        self.x += dir_x * self.speed
-        self.y += dir_y * self.speed
+        self.x += dir_x * self.speed * delta_time
+        self.y += dir_y * self.speed * delta_time
 
     def get_nearest_player(self, players, aggro_range):
         nearest_player = None
