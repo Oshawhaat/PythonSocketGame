@@ -55,10 +55,11 @@ class Game_Object(pg.sprite.Sprite):
 
     def get_dir(self, other):
         """
-        returns the direction, being the normalized vector of distance, from this object to the other
+        returns the direction, the normalized vector of distance, from this object to the other
         """
         x_dist, y_dist = self.get_dist(other, ret_tuple=True)
         magnitude = self.get_dist(other)
+        if not magnitude: return 0, 0
         x_norm = x_dist / magnitude
         y_norm = y_dist / magnitude
         return x_norm, y_norm
