@@ -54,3 +54,10 @@ class Player(Game_Object):
         player_dict = super().dictionarify()
         player_dict["username"] = self.username
         return player_dict
+
+    def on_screen(self, other):
+        """
+        returns true if other is on the screen of this player
+        """
+        x_dist, y_dist = self.get_dist(other, ret_tuple=True)
+        return abs(x_dist) <= 400 and abs(y_dist) <= 400
