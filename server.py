@@ -108,9 +108,12 @@ def threaded_client(conn):
             tiles_list = [tile.dictionarify() for tile in tiles.sprites()
                           if client_player.on_screen(tile)]
 
-            entities_list = [client_player.dictionarify()] + players_list + tiles_list
+            enemies_list = [enemy.dictionarify() for enemy in enemies.sprites()
+                            if client_player.on_screen(client_player)]
 
-            conn.sendall(pickle.dumps([entity for entity in entities_list if entity.on_screen(client_player)]))
+            entities_list = [client_player.dictionarify()] + players_list + tiles_list + enemies_list
+
+            conn.sendall(pickle.dumps(entities_list))
     except ConnectionResetError:
         pass
     print("Disconnected")
