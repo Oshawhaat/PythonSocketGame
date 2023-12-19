@@ -28,6 +28,7 @@ print(f"found {len(player_image_paths)} player images:\n", player_image_paths)
 
 players = pg.sprite.Group()
 tiles = pg.sprite.Group()
+enemies = pg.sprite.Group()
 
 clock = pg.time.Clock()
 
@@ -101,8 +102,11 @@ def threaded_client(conn):
                 case "keys":
                     client_player.keys = data
 
-            players_list = [player.dictionarify() for player in players.sprites() if player.player_id != player_id]
-            tiles_list = [tile.dictionarify() for tile in tiles.sprites()]
+            players_list = [player.dictionarify() for player in players.sprites()
+                            if player.player_id != player_id and client_player.on_screen(client_player)]
+
+            tiles_list = [tile.dictionarify() for tile in tiles.sprites()
+                          if client_player.on_screen(tile)]
 
             entities_list = [client_player.dictionarify()] + players_list + tiles_list
 
