@@ -25,11 +25,11 @@ class Player(Game_Object):
         offset_x = d - a
         offset_y = s - w
 
-        divisor = np.sqrt(np.square(offset_x) + np.square(offset_y))
-        if not divisor: return
+        magnitude = np.sqrt(np.square(offset_x) + np.square(offset_y))
+        if not magnitude: return
 
-        norm_x = offset_x / divisor
-        norm_y = offset_y / divisor
+        norm_x = offset_x / magnitude
+        norm_y = offset_y / magnitude
 
         move_x = norm_x * self.speed * delta_time
         move_y = norm_y * self.speed * delta_time
