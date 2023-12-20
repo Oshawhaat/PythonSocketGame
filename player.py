@@ -8,6 +8,7 @@ class Player(Game_Object):
         super().__init__(image_path, pos)
         self.speed = 300  # pixels/second
         self.keys = {}
+        self.cooldowns = {"water": 0}
         self.username = ""
         self.player_id = player_id
 
@@ -15,6 +16,11 @@ class Player(Game_Object):
         return "player"
 
     def update(self, delta_time: float, solid_tile_rects: list = None):
+        for key in self.cooldowns.keys():
+            cooldown = self.cooldowns[key]
+            if cooldown:
+                self.cooldowns[key] = max(0, cooldown - delta_time)
+
         if not self.keys: return
 
         w = max(self.keys[pg.K_w], self.keys[pg.K_UP])
