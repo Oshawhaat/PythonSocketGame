@@ -46,7 +46,7 @@ class Projectile(Attack):
         super().__init__(player, target_pos)
         self.dir_x, self.dir_y = self.get_dir(target_pos)
 
-    def update(self, delta_time, target_enemy):
+    def update(self, solid_tiles, delta_time, target_enemy):
         self.x += self.dir_x * self.speed * delta_time
         self.y += self.dir_y * self.speed * delta_time
 
