@@ -3,14 +3,30 @@ from game_object import Game_Object
 
 class Attack(Game_Object):
     image_path: str
+    radius: int
+    hit_players: bool
+    hit_enemies: bool
 
     def __init__(self, player, target_pos: tuple):
         super().__init__(self.image_path, (player.x, player.y))
+        self.ignored_targets = []
 
-    def update(self, delta_time, target_enemy):
-        pass
+    def update(self, delta_time, solid_tiles, players, enemies):
+        targets = (players if self.hit_players else []) + \
+                  (enemies if self.hit_enemies else [])
+        hittable_targets = [target for target in targets if target not in self.ignored_targets]
 
-    def on_hit_enemy(self):
+        for target in hittable_targets:
+            if not self.get_dist(target) < self.radius + target.rect.width: return
+            self.on_hit_target()
+
+        hittable_tiles = [tile for tile in solid_tiles if tile not in self.ignored_targets]
+
+        for tile in hittable_tiles:
+            if not self.get_dist(tile) < self.radius + tile.rect.width: return
+            self.on_hit_tile()
+
+    def on_hit_target(self):
         pass
 
     def on_hit_wall(self):
@@ -22,7 +38,6 @@ class Attack(Game_Object):
 
 class Projectile(Attack):
     speed: int
-    radius: int
     duration: int
     enemy_piercing: int
     wall_piercing: int
@@ -47,7 +62,6 @@ class Projectile(Attack):
 
 
 class AOE(Attack):
-    radius: int
     duration: int
 
     def __init__(self, player, target_pos: tuple):
@@ -55,7 +69,6 @@ class AOE(Attack):
 
 
 class Melee(Attack):
-    radius: int
     duration: int
 
 
