@@ -31,6 +31,7 @@ print(f"found {len(player_image_paths)} player images:\n", player_image_paths)
 players = pg.sprite.Group()
 tiles = pg.sprite.Group()
 enemies = pg.sprite.Group()
+attacks = pg.sprite.Group()
 
 clock = pg.time.Clock()
 
