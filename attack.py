@@ -29,7 +29,7 @@ class Attack(Game_Object):
     def on_hit_target(self):
         pass
 
-    def on_hit_wall(self):
+    def on_hit_tile(self):
         pass
 
     def delete(self):
