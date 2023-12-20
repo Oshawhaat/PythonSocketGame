@@ -13,7 +13,7 @@ class Enemy(Game_Object):
     def __str__(self):
         return "enemy"
 
-    def update(self, delta_time, players):
+    def update(self, delta_time, solid_tiles, players):
         self.curr_target = self.get_nearest_player(players, self.aggro_range)
         if not self.curr_target: return
 
