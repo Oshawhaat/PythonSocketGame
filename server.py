@@ -131,8 +131,10 @@ def threaded_client(conn):
 def threaded_game():
     while True:
         delta_time = clock.tick(60) / 1000
-        players.update(delta_time)
-        enemies.update(delta_time, players.sprites())
+        solid_tiles = [tile for tile in tiles.sprites() if tile.solid]
+        players.update(delta_time, solid_tiles)
+        enemies.update(delta_time, solid_tiles, players.sprites())
+        attacks.update(delta_time, solid_tiles, players.sprites(), enemies.sprites())
 
 
 def main():
