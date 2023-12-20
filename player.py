@@ -15,7 +15,7 @@ class Player(Game_Object):
     def __str__(self):
         return "player"
 
-    def update(self, delta_time: float, solid_tile_rects: list = None):
+    def update(self, delta_time: float, solid_tile_rects: list):
         for key in self.cooldowns.keys():
             cooldown = self.cooldowns[key]
             if cooldown:
