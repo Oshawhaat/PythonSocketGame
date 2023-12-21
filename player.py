@@ -66,6 +66,6 @@ class Player(Game_Object):
         returns true if other is on the screen of this player
         """
         x_dist, y_dist = self.get_dist(other, ret_tuple=True)
-        x_dist += other.rect.width / 2
-        y_dist += other.rect.height / 2
-        return abs(x_dist) <= 400 and abs(y_dist) <= 400
+        abs_x_dist = abs(x_dist) - other.rect.width / 2
+        abs_y_dist = abs(y_dist) - other.rect.height / 2
+        return abs(abs_x_dist) <= 400 and abs(abs_y_dist) <= 400
