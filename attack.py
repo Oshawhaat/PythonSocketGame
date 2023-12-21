@@ -37,7 +37,7 @@ class Attack(Game_Object):
         del self
 
 
-class Projectile(Attack):
+class Projectile_Attack(Attack):
     speed: int
     duration: int
     enemy_piercing: int
@@ -63,14 +63,14 @@ class Projectile(Attack):
         self.wall_piercing -= 1
 
 
-class AOE(Attack):
+class AOE_Attack(Attack):
     duration: int
 
     def __init__(self, caster, target_pos: tuple):
         super().__init__(caster, target_pos)
 
 
-class Melee(Attack):
+class Melee_Attack(Attack):
     duration: int
     swing_angle: int
 
