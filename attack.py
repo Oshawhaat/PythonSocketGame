@@ -7,9 +7,10 @@ class Attack(Game_Object):
     hit_players: bool
     hit_enemies: bool
 
-    def __init__(self, player, target_pos: tuple):
-        super().__init__(self.image_path, (player.x, player.y))
+    def __init__(self, caster, target_pos: tuple):
+        super().__init__(self.image_path, (caster.x, caster.y))
         self.ignored_targets = []
+        self.target_pos = target_pos
 
     def update(self, delta_time, solid_tiles, players, enemies):
         targets = (players if self.hit_players else []) + \
@@ -42,11 +43,12 @@ class Projectile(Attack):
     enemy_piercing: int
     wall_piercing: int
 
-    def __init__(self, player, target_pos: tuple):
-        super().__init__(player, target_pos)
+    def __init__(self, caster, target_pos: tuple):
+        super().__init__(caster, target_pos)
         self.dir_x, self.dir_y = self.get_dir(target_pos)
 
     def update(self, delta_time, solid_tiles, players, enemies):
+        super().update()
         self.x += self.dir_x * self.speed * delta_time
         self.y += self.dir_y * self.speed * delta_time
 
@@ -64,11 +66,12 @@ class Projectile(Attack):
 class AOE(Attack):
     duration: int
 
-    def __init__(self, player, target_pos: tuple):
-        super().__init__(player, target_pos)
+    def __init__(self, caster, target_pos: tuple):
+        super().__init__(caster, target_pos)
 
 
 class Melee(Attack):
     duration: int
+    swing_angle: int
 
 
