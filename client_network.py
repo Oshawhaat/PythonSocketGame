@@ -124,7 +124,8 @@ def get_player_info():
         try:
             image_ind = int(input("Enter the index of the image you want: ")) - 1
 
-            if image_ind < 0:
+            if not 0 < image_ind < len(available_images):
+                print("Choosing a random image...")
                 image_ind = rnd.randint(0, len(available_images) - 1)
 
             image = "imgz/" + available_images[image_ind]
