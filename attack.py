@@ -18,19 +18,19 @@ class Attack(Game_Object):
         hittable_targets = [target for target in targets if target not in self.ignored_targets]
 
         for target in hittable_targets:
-            if not self.get_dist(target) < self.radius + target.rect.width: return
-            self.on_hit_target()
+            if not self.get_dist(target) < self.radius + target.rect.width: continue
+            self.on_hit_target(target)
 
         hittable_tiles = [tile for tile in solid_tiles if tile not in self.ignored_targets]
 
         for tile in hittable_tiles:
-            if not self.get_dist(tile) < self.radius + tile.rect.width: return
-            self.on_hit_tile()
+            if not self.get_dist(tile) < self.radius + tile.rect.width: continue
+            self.on_hit_tile(tile)
 
-    def on_hit_target(self):
+    def on_hit_target(self, target):
         pass
 
-    def on_hit_tile(self):
+    def on_hit_tile(self, tile):
         pass
 
     def delete(self):
@@ -52,12 +52,12 @@ class Projectile_Attack(Attack):
         self.x += self.dir_x * self.speed * delta_time
         self.y += self.dir_y * self.speed * delta_time
 
-    def on_hit_enemy(self):
+    def on_hit_target(self, target):
         if self.enemy_piercing == 0:
             self.delete()
         self.enemy_piercing -= 1
 
-    def on_hit_wall(self):
+    def on_hit_tile(self, tile):
         if self.wall_piercing == 0:
             self.delete()
         self.wall_piercing -= 1
