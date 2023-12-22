@@ -28,7 +28,7 @@ class Game_Object_Group(pg.sprite.Group):
 
 
 class Game_Object(pg.sprite.Sprite):
-    def __init__(self, obj_dict, group):
+    def __init__(self, obj_dict, group, game_images):
         super().__init__(group)
         self.rect = pg.Rect(*obj_dict["rect"])
         self.x = obj_dict["x"]
@@ -38,14 +38,14 @@ class Game_Object(pg.sprite.Sprite):
         if obj_dict["class"] != "player":
             self.rect.x += self.x
             self.rect.y += self.y
-        self.image = pg.image.load(f"imgz/{obj_dict['image_name']}")
+        self.image = game_images[obj_dict['image_name']]
         if obj_dict["health"]:
             self.health = obj_dict["health"]
 
 
 class Player(Game_Object):
-    def __init__(self, player_dict: dict, group: pg.sprite.Group | pg.sprite.GroupSingle, main_player=False):
-        super().__init__(player_dict, group)
+    def __init__(self, player_dict: dict, group: pg.sprite.Group | pg.sprite.GroupSingle, game_images, main_player=False):
+        super().__init__(player_dict, group, game_images)
         self.username = player_dict["username"]
         self.main_player = main_player
 
@@ -57,8 +57,8 @@ class Player(Game_Object):
 
 
 class Tile(Game_Object):
-    def __init__(self, tile_dict: dict, group: pg.sprite.Group):
-        super().__init__(tile_dict, group)
+    def __init__(self, tile_dict: dict, group: pg.sprite.Group, game_images):
+        super().__init__(tile_dict, group, game_images)
         self.solid = tile_dict["solid"]
 
 
@@ -146,7 +146,7 @@ def get_keys():
     return key_dict
 
 
-def redraw_screen(objects):
+def redraw_screen(objects, game_images):
     screen.fill((255, 255, 255))
     if not objects:
         return
@@ -156,15 +156,15 @@ def redraw_screen(objects):
     tile_group = Game_Object_Group()
     enemy_group = Game_Object_Group()
 
-    main_player = Player(objects[0], group=main_player_group, main_player=True)
+    main_player = Player(objects[0], main_player_group, game_images, main_player=True)
     for obj_dict in objects[1:]:
         match obj_dict["class"]:
             case "player":
-                Player(obj_dict, group=player_group)
+                Player(obj_dict, player_group, game_images)
             case "tile":
-                Tile(obj_dict, group=tile_group)
+                Tile(obj_dict, tile_group, game_images)
             case "enemy":
-                Enemy(obj_dict, group=enemy_group)
+                Enemy(obj_dict, enemy_group, game_images)
 
     for obj in tile_group.sprites() + [p for p in player_group.sprites() if not p.main_player] + enemy_group.sprites():
         obj.rect.x -= main_player.x
@@ -184,13 +184,15 @@ def main():
     network = Network()
     network.send(("info", get_player_info()))
 
+    game_images = {image: pg.image.load(f"imgz/{image}") for image in os.listdir("imgz")}
+
     while running:
         clock.tick(60)
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 pg.quit()
 
-        redraw_screen(network.send(("keys", get_keys())))
+        redraw_screen(network.send(("keys", get_keys())), game_images)
         pg.display.update()
 
 
