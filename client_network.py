@@ -151,8 +151,8 @@ def redraw_screen(objects, game_images):
     if not objects:
         return
 
-    player_group = Game_Object_Group()
     main_player_group = pg.sprite.GroupSingle()
+    player_group = Game_Object_Group()
     tile_group = Game_Object_Group()
     enemy_group = Game_Object_Group()
 
@@ -169,10 +169,10 @@ def redraw_screen(objects, game_images):
     for obj in tile_group.sprites() + [p for p in player_group.sprites() if not p.main_player] + enemy_group.sprites():
         obj.rect.x -= main_player.x
         obj.rect.y -= main_player.y
-    tile_group.draw(screen)
-    player_group.draw(screen)
-    enemy_group.draw(screen)
     main_player_group.draw(screen)
+    player_group.draw(screen)
+    tile_group.draw(screen)
+    enemy_group.draw(screen)
 
     for player in player_group:
         player.draw_name()
