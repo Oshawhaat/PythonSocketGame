@@ -59,6 +59,7 @@ class Player(Game_Object):
     def dictionarify(self):
         player_dict = super().dictionarify()
         player_dict["username"] = self.username
+        player_dict["cooldowns"] = self.cooldowns
         return player_dict
 
     def on_screen(self, other):
