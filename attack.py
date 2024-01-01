@@ -94,4 +94,11 @@ class AOE_Attack(Attack):
 class Melee_Attack(Attack):
     swing_angle: int
 
+    def __init__(self, caster, target_pos: tuple):
+        super().__init__(caster, target_pos)
+        self.caster = caster
 
+    def update(self, delta_time, solid_tiles, players, enemies):
+        super().update(delta_time, solid_tiles, players, enemies)
+        self.rotation = self.swing_angle * (self.remaining_duration / self.duration)
+        self.set_pos(*self.caster.get_pos())
