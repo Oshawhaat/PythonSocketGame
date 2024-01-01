@@ -13,6 +13,7 @@ class Attack(Game_Object):
         super().__init__(self.image_path, (caster.x, caster.y))
         self.ignored_tile_coords = []
         self.target_pos = target_pos
+        self.remaining_duration = self.duration
 
     def update(self, delta_time, solid_tiles, players, enemies):
         ignored_targets = [tile for tile in solid_tiles if tile.get_pos() not in self.ignored_tile_coords]
@@ -31,6 +32,10 @@ class Attack(Game_Object):
             if not self.get_dist(tile) < self.radius + tile.rect.width: continue
             self.on_hit_tile(tile)
 
+        if not self.remaining_duration >= 0: return
+        self.remaining_duration -= delta_time
+        if self.remaining_duration <= 0: self.delete()
+
     def on_hit_target(self, target):
         pass
 
@@ -43,7 +48,6 @@ class Attack(Game_Object):
 
 class Projectile_Attack(Attack):
     speed: int
-    duration: int
     enemy_piercing: int
     wall_piercing: int
 
@@ -75,7 +79,6 @@ class AOE_Attack(Attack):
 
 
 class Melee_Attack(Attack):
-    duration: int
     swing_angle: int
 
 
