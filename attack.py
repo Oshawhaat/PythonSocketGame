@@ -37,7 +37,7 @@ class Attack(Game_Object):
         if self.remaining_duration <= 0: self.delete()
 
     def on_hit_target(self, target):
-        pass
+        target.damage(self.damage)
 
     def on_hit_tile(self, tile):
         pass
