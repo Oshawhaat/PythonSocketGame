@@ -42,7 +42,11 @@ class Attack(Game_Object):
     def on_hit_tile(self, tile):
         pass
 
+    def on_delete(self):
+        pass
+
     def delete(self):
+        self.on_delete()
         del self
 
 
