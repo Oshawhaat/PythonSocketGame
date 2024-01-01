@@ -26,7 +26,7 @@ class Attack(Game_Object):
             if not self.get_dist(target) < self.radius + target.rect.width: continue
             self.on_hit_target(target)
 
-        hittable_tiles = [tile for tile in solid_tiles if tile not in self.ignored_targets]
+        hittable_tiles = [tile for tile in solid_tiles if tile not in ignored_targets]
 
         for tile in hittable_tiles:
             if not self.get_dist(tile) < self.radius + tile.rect.width: continue
