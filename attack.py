@@ -80,6 +80,15 @@ class AOE_Attack(Attack):
 
     def __init__(self, caster, target_pos: tuple):
         super().__init__(caster, target_pos)
+        self.max_radius = self.radius
+        self.radius = 0
+        self.expand_time_remaining = self.expand_time
+
+    def update(self, delta_time, solid_tiles, players, enemies):
+        super().update(delta_time, solid_tiles, players, enemies)
+        self.expand_time_remaining -= delta_time
+        percent_expanded = self.expand_time_remaining / self.expand_time
+        self.radius = percent_expanded * self.radius
 
 
 class Melee_Attack(Attack):
