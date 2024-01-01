@@ -76,7 +76,7 @@ class Projectile_Attack(Attack):
 
 
 class AOE_Attack(Attack):
-    duration: int
+    expand_time: float
 
     def __init__(self, caster, target_pos: tuple):
         super().__init__(caster, target_pos)
