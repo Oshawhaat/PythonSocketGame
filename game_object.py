@@ -22,6 +22,10 @@ class Game_Object(pg.sprite.Sprite):
         self.set_image(image_path)
         self.rect.center = pos
 
+    def damage(self, damage):
+        damage_taken = damage * (1 - self.defense)
+        self.health -= damage_taken
+
     def dictionarify(self):
         """
         returns a dictionary representing this object
