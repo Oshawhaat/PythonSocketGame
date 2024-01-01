@@ -11,13 +11,15 @@ class Attack(Game_Object):
 
     def __init__(self, caster, target_pos: tuple):
         super().__init__(self.image_path, (caster.x, caster.y))
-        self.ignored_targets = []
+        self.ignored_tile_coords = []
         self.target_pos = target_pos
 
     def update(self, delta_time, solid_tiles, players, enemies):
+        ignored_targets = [tile for tile in solid_tiles if tile.get_pos() not in self.ignored_tile_coords]
+
         targets = (players if self.hit_players else []) + \
                   (enemies if self.hit_enemies else [])
-        hittable_targets = [target for target in targets if target not in self.ignored_targets]
+        hittable_targets = [target for target in targets if target not in ignored_targets]
 
         for target in hittable_targets:
             if not self.get_dist(target) < self.radius + target.rect.width: continue
