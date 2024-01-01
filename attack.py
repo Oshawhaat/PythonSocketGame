@@ -3,7 +3,9 @@ from game_object import Game_Object
 
 class Attack(Game_Object):
     image_path: str
-    radius: int
+    damage: float
+    radius: float
+    duration: float
     hit_players: bool
     hit_enemies: bool
 
