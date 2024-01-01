@@ -9,9 +9,12 @@ class Game_Object(pg.sprite.Sprite):
 
         self.max_health = 0
         self.health = 0
+        self.defense = 0
 
         self.x = 0
         self.y = 0
+        self.rotation = 0
+
         self.rect = None
         self.image = None
         self.image_path = None
