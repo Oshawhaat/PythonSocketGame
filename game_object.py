@@ -74,3 +74,10 @@ class Game_Object(pg.sprite.Sprite):
         x_norm = x_dist / magnitude
         y_norm = y_dist / magnitude
         return x_norm, y_norm
+
+    def get_pos(self):
+        return self.x, self.y
+
+    def set_pos(self, x, y):
+        self.x = x
+        self.y = y
