@@ -17,7 +17,7 @@ class Enemy(Game_Object):
         self.curr_target = self.get_nearest_player(players, self.aggro_range)
         if not self.curr_target: return
 
-        dir_x, dir_y = self.get_dir(self.curr_target)
+        dir_x, dir_y = self.get_dir(*self.curr_target.get_pos())
         self.x += dir_x * self.speed * delta_time
         self.y += dir_y * self.speed * delta_time
 
@@ -25,7 +25,7 @@ class Enemy(Game_Object):
         nearest_player = None
         nearest_dist = aggro_range
 
-        player_dists = [self.get_dist(player) for player in players]
+        player_dists = [self.get_dist(*player.get_pos()) for player in players]
 
         for player, dist in zip(players, player_dists):
             if nearest_dist < dist: continue

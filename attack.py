@@ -23,13 +23,13 @@ class Attack(Game_Object):
         hittable_targets = [target for target in targets if target not in ignored_targets]
 
         for target in hittable_targets:
-            if not self.get_dist(target) < self.radius + target.rect.width: continue
+            if not self.get_dist(*target.get_pos()) < self.radius + target.rect.width: continue
             self.on_hit_target(target)
 
         hittable_tiles = [tile for tile in solid_tiles if tile not in ignored_targets]
 
         for tile in hittable_tiles:
-            if not self.get_dist(tile) < self.radius + tile.rect.width: continue
+            if not self.get_dist(*tile.get_pos()) < self.radius + tile.rect.width: continue
             self.on_hit_tile(tile)
 
         if not self.remaining_duration >= 0: return
@@ -57,7 +57,7 @@ class Projectile_Attack(Attack):
 
     def __init__(self, caster, target_pos: tuple):
         super().__init__(caster, target_pos)
-        self.dir_x, self.dir_y = self.get_dir(target_pos)
+        self.dir_x, self.dir_y = self.get_dir(*target_pos)
 
     def update(self, delta_time, solid_tiles, players, enemies):
         super().update(delta_time, solid_tiles, players, enemies)

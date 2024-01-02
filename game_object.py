@@ -47,29 +47,25 @@ class Game_Object(pg.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = (0, 0)
 
-    def get_dist(self, other: pg.sprite.Sprite | tuple, ret_tuple=False):
+    def get_dist(self, x, y, ret_tuple=False):
         """
-        returns the distance from this object to other
-        :param other: the object we get the dist to
+        returns the distance from this object to the specified coordinates
         :param ret_tuple: returns the distance as a vector
         """
-        if type(other) is tuple:
-            x_dist, y_dist = other
-        else:
-            x_dist = other.x - self.x
-            y_dist = other.y - self.y
+        x_dist = x - self.x
+        y_dist = y - self.y
 
         if ret_tuple: return x_dist, y_dist
 
         dist = math.sqrt((x_dist ** 2) + (y_dist ** 2))
         return dist
 
-    def get_dir(self, other):
+    def get_dir(self, x, y):
         """
         returns the direction, the normalized vector of distance, from this object to the other
         """
-        x_dist, y_dist = self.get_dist(other, ret_tuple=True)
-        magnitude = self.get_dist(other)
+        x_dist, y_dist = self.get_dist(x, y, ret_tuple=True)
+        magnitude = self.get_dist(x, y)
         if not magnitude: return 0, 0
         x_norm = x_dist / magnitude
         y_norm = y_dist / magnitude
