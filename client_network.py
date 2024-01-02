@@ -83,6 +83,7 @@ class Network:
                   f"*********************************")
             pg.quit()
             quit()
+            return
         print(f"player id: {self.id}")
 
         try:
