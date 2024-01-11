@@ -99,13 +99,7 @@ class Network:
         for file in glob.glob("imgz/*.*"):
             os.remove(file)
 
-        for x in range(num_images):
-            self.client.send(f"ri{x}".encode('latin-1'))
-            image = self.client.recv(4096000)
-            self.client.send(f"rn{x}".encode('latin-1'))
-            image_name = self.client.recv(4096).decode('latin-1')
-            with open(f"imgz/{image_name}", "xb") as file:
-                file.write(image)
+        self.write_images(num_images)
 
     def connect(self):
         self.client.connect(self.address)
@@ -116,6 +110,20 @@ class Network:
     def send(self, data):
         self.client.send(pickle.dumps(data))
         return pickle.loads(self.client.recv(4096))
+
+    def write_images(self, num_images):
+        x = 0
+        while x < num_images:
+            try:
+                self.client.send(f"ri{x}".encode('latin-1'))
+                image = self.client.recv(4096000)
+                self.client.send(f"rn{x}".encode('latin-1'))
+                image_name = self.client.recv(4096).decode('latin-1')
+                with open(f"imgz/{image_name}", "xb") as file:
+                    file.write(image)
+                x += 1
+            except ValueError:
+                print(f"{TEXT_LIGHT_RED}Could not write image {x}, trying again")
 
 
 def get_player_info():
