@@ -79,7 +79,7 @@ def check_if_request(data, images, image_names, conn):
 
 def threaded_client(conn):
     player_pos = 400, 400
-    player_image = "imgs/loading.png"
+    player_image = "imgs/player_chez.png"
     print("creating new player with default image:", player_image)
 
     player_id = len(players.sprites())
