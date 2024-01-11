@@ -166,13 +166,13 @@ def redraw_screen(objects, game_images):
 
     main_player = Player(objects[0], main_player_group, game_images, main_player=True)
     for obj_dict in objects[1:]:
-        match obj_dict["class"]:
-            case "player":
-                Player(obj_dict, player_group, game_images)
-            case "tile":
-                Tile(obj_dict, tile_group, game_images)
-            case "enemy":
-                Enemy(obj_dict, enemy_group, game_images)
+        obj_class = obj_dict["class"]
+        if obj_class == "player":
+            Player(obj_dict, player_group, game_images)
+        elif obj_class == "tile":
+            Tile(obj_dict, tile_group, game_images)
+        elif obj_class == "enemy":
+            Enemy(obj_dict, enemy_group, game_images)
 
     for obj in tile_group.sprites() + [p for p in player_group.sprites() if not p.main_player] + enemy_group.sprites():
         obj.rect.x -= main_player.x
