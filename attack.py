@@ -11,26 +11,26 @@ class Attack(Game_Object):
 
     def __init__(self, caster, target_pos: tuple):
         super().__init__(self.image_path, (caster.x, caster.y))
-        self.ignored_tile_coords = []
+        self.ignored_targets = []
         self.target_pos = target_pos
         self.remaining_duration = self.duration
 
     def update(self, delta_time, solid_tiles, players, enemies):
-        ignored_targets = [tile for tile in solid_tiles if tile.get_pos() not in self.ignored_tile_coords]
 
         targets = (players if self.hit_players else []) + \
                   (enemies if self.hit_enemies else [])
-        hittable_targets = [target for target in targets if target not in ignored_targets]
+        hittable_targets = [target for target in targets if target not in self.ignored_targets]
 
         for target in hittable_targets:
             if not self.get_dist(*target.get_pos()) < self.radius + target.rect.width: continue
             self.on_hit_target(target)
 
-        hittable_tiles = [tile for tile in solid_tiles if tile not in ignored_targets]
+        hittable_tiles = [tile for tile in solid_tiles if tile not in self.ignored_targets]
 
         for tile in hittable_tiles:
             if not self.get_dist(*tile.get_pos()) < self.radius + tile.rect.width: continue
             self.on_hit_tile(tile)
+            self.ignored_targets += tile
 
         if not self.remaining_duration >= 0: return
         self.remaining_duration -= delta_time
