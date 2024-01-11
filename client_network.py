@@ -12,6 +12,11 @@ SCREEN_HEIGHT = 800
 PLAYER_FONT_SIZE = 12
 PLAYER_NAME_OFFSET = 5
 
+TEXT_GREEN = "\033[92m"
+TEXT_BLUE = "\033[94m"
+TEXT_RED = "\033[31m"
+TEXT_LIGHT_RED = "\033[91m"
+
 screen = pg.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 font = pg.font.Font(pg.font.get_default_font(), PLAYER_FONT_SIZE)
 
@@ -71,20 +76,20 @@ class Network:
     def __init__(self):
         self.client = socket.socket()
         # self.server = "127.0.0.1"
-        self.server = "10.234.12.200"
+        self.server = "10.234.6.193"
         self.port = 9999
         self.address = (self.server, self.port)
         try:
             num_images, self.id = self.connect()
         except OSError as error:
-            print(f"\n*********************************\n"
-                  f"Could not connect to server\n"
-                  f"{error}\n"
-                  f"*********************************")
+            print(f"{TEXT_RED}\n*********************************\n"
+                  f"{TEXT_RED}Could not connect to server\n"
+                  f"{TEXT_RED}{error}\n"
+                  f"{TEXT_RED}*********************************")
             pg.quit()
             quit()
             return
-        print(f"player id: {self.id}")
+        print(f"{TEXT_BLUE}player id: {self.id}")
 
         try:
             os.mkdir("imgz")
@@ -105,7 +110,7 @@ class Network:
     def connect(self):
         self.client.connect(self.address)
         ret = pickle.loads(self.client.recv(4096))
-        print("Connected to server!")
+        print(f"{TEXT_GREEN}Connected to server!")
         return ret
 
     def send(self, data):
@@ -115,27 +120,27 @@ class Network:
 
 def get_player_info():
     available_images = [img for img in os.listdir("imgz") if img.startswith("player_")]
-    username = input("Enter a Username: ")
+    username = input(f"{TEXT_GREEN}Enter a Username: ")
     image = None
 
     while image is None:
-        print("Here are the available images:")
-        print("(enter 0 for random)")
+        print(f"{TEXT_BLUE}Here are the available images:")
+        print(f"{TEXT_BLUE}(enter 0 for random)")
         for ind, img in enumerate(available_images):
             print(f"{ind + 1}:", img)
         try:
-            image_ind = int(input("Enter the index of the image you want: ")) - 1
+            image_ind = int(input(f"{TEXT_GREEN}Enter the index of the image you want: ")) - 1
 
             if not 0 < image_ind < len(available_images):
-                print("Choosing a random image...")
+                print(f"{TEXT_BLUE}Choosing a random image...")
                 image_ind = rnd.randint(0, len(available_images) - 1)
 
             image = "imgz/" + available_images[image_ind]
 
         except ValueError:
-            print("That is not a valid number! try again: ")
+            print(f"{TEXT_LIGHT_RED}That is not a valid number! try again: ")
 
-    print("The game is ready, open the window")
+    print(f"{TEXT_GREEN}The game is ready, open the window")
 
     return username, image
 

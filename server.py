@@ -8,8 +8,10 @@ import pygame as pg
 from player import Player
 from _thread import start_new_thread
 
-# server = "127.0.0.1"
-server = "10.234.12.200"
+TEXT_GREEN = "\033[92m"
+TEXT_BLUE = "\033[94m"
+
+server = socket.gethostbyname(socket.gethostname())
 port = 9999
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -20,13 +22,14 @@ except socket.error as e:
     str(e)
 
 s.listen()
-print("Server started, awaiting connections")
 
 # remove invisible .DS_Store file that does not seem to be able to be removed
 image_paths = ["imgs/" + image_name for image_name in os.listdir("imgs") if image_name != ".DS_Store"]
 player_image_paths = [image for image in image_paths if image.split("/")[1].startswith("player")]
-print(f"found {len(image_paths)} images:\n", image_paths)
-print(f"found {len(player_image_paths)} player images:\n", player_image_paths)
+print(f"{TEXT_GREEN}found {len(image_paths)} images:\n", image_paths)
+print(f"{TEXT_GREEN}found {len(player_image_paths)} player images:\n", player_image_paths)
+print()
+print(f"{TEXT_GREEN}Server started on {TEXT_BLUE}{server}{TEXT_GREEN}, awaiting connections")
 
 players = pg.sprite.Group()
 tiles = pg.sprite.Group()
