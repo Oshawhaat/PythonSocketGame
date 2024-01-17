@@ -11,7 +11,7 @@ from _thread import start_new_thread
 TEXT_GREEN = "\033[92m"
 TEXT_BLUE = "\033[94m"
 
-server = socket.gethostbyname(socket.gethostname())
+server = "192.168.87.146" # socket.gethostbyname(socket.gethostname())
 port = 9999
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
