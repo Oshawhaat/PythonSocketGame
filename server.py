@@ -1,12 +1,17 @@
 import os
 import pickle
 import socket
+import tile
+import enemy
 import pygame as pg
-import random as rnd
+
 from player import Player
 from _thread import start_new_thread
 
-server = "10.234.12.66" # "127.0.0.1"
+TEXT_GREEN = "\033[92m"
+TEXT_BLUE = "\033[94m"
+
+server = "192.168.87.146" # socket.gethostbyname(socket.gethostname())
 port = 9999
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -17,13 +22,27 @@ except socket.error as e:
     str(e)
 
 s.listen()
-print("Server started, awaiting connections")
 
+# remove invisible .DS_Store file that does not seem to be able to be removed
 image_paths = ["imgs/" + image_name for image_name in os.listdir("imgs") if image_name != ".DS_Store"]
-print(f"found {len(image_paths)} images:\n", image_paths)
+player_image_paths = [image for image in image_paths if image.split("/")[1].startswith("player")]
+print(f"{TEXT_GREEN}found {len(image_paths)} images:\n", image_paths)
+print(f"{TEXT_GREEN}found {len(player_image_paths)} player images:\n", player_image_paths)
+print()
+print(f"{TEXT_GREEN}Server started on {TEXT_BLUE}{server}{TEXT_GREEN}, awaiting connections")
 
 players = pg.sprite.Group()
+tiles = pg.sprite.Group()
+enemies = pg.sprite.Group()
+attacks = pg.sprite.Group()
+
 clock = pg.time.Clock()
+
+tile = tile.Test_BG((0, 0))
+tiles.add(tile)
+
+enemy = enemy.Test_Enemy((0, 0))
+enemies.add(enemy)
 
 
 class My_Exception(Exception):
@@ -32,24 +51,25 @@ class My_Exception(Exception):
 
 def check_if_request(data, images, image_names, conn):
     try:
-        reply = data.decode()
+        reply = data.decode('latin-1')
         if not reply: raise My_Exception(f"Reply was empty ({reply})")
-        if not reply[0] == 'r': raise My_Exception(f'Reply did not start with "r" ({reply})')
-        print(reply)
+        assert reply[0] == 'r'
 
         match reply[1]:
             case "i":
                 image_index = int(reply[2:])
-                conn.send(images[image_index])
+                conn.sendall(images[image_index])
                 return True
             case "n":
                 name_index = int(reply[2:])
-                conn.send(image_names[name_index].encode())
+                conn.sendall(image_names[name_index].encode('latin-1'))
                 return True
 
         raise My_Exception("Could not process request!")
 
     except UnicodeDecodeError:
+        return False
+    except AssertionError:
         return False
 
     except My_Exception as exception:
@@ -59,13 +79,13 @@ def check_if_request(data, images, image_names, conn):
 
 def threaded_client(conn):
     player_pos = 400, 400
-    player_image = image_paths[rnd.randint(0, len(image_paths) - 1)]
-    print("creating player with img:", player_image)
-    player = Player(player_image, player_pos)
-    print(player.image_path)
-    player_id = len(players.sprites())
+    player_image = "imgs/player_chez.png"
+    print("creating new player with default image:", player_image)
 
-    conn.send(pickle.dumps((len(image_paths), player_id)))
+    player_id = len(players.sprites())
+    client_player = Player(player_image, player_pos, player_id)
+
+    conn.sendall(pickle.dumps((len(image_paths), player_id)))
     images = []
     image_names = []
     for file_path in image_paths:
@@ -74,7 +94,7 @@ def threaded_client(conn):
             images.append(file.read())
             image_names.append(file_name)
 
-    players.add(player)
+    players.add(client_player)
     try:
         while True:
             _data = conn.recv(4096)
@@ -87,28 +107,47 @@ def threaded_client(conn):
 
             match key:
                 case "info":
-                    player.username, image_path = data
-                    if image_path: player.set_image(image_path)
-                    print(data)
+                    client_player.username, image_path = data
+                    if image_path: client_player.set_image(image_path)
 
                 case "keys":
-                    player.keys = data
+                    client_player.keys = data
 
-            conn.send(pickle.dumps([ player.ready_pickle() for player in players.sprites() ]))
-    except ConnectionResetError: pass
+            players_list = [player.dictionarify() for player in players.sprites()
+                            if player.player_id != player_id and client_player.on_screen(client_player)]
+
+            tiles_list = [tile.dictionarify() for tile in tiles.sprites()
+                          if client_player.on_screen(tile)]
+
+            enemies_list = [enemy.dictionarify() for enemy in enemies.sprites()
+                            if client_player.on_screen(client_player)]
+
+            entities_list = [client_player.dictionarify()] + players_list + tiles_list + enemies_list
+
+            conn.sendall(pickle.dumps(entities_list))
+    except ConnectionResetError:
+        pass
     print("Disconnected")
-    players.remove(player)
+    players.remove(client_player)
 
 
 def threaded_game():
     while True:
         delta_time = clock.tick(60) / 1000
-        players.update(delta_time)
+        solid_tiles = [tile for tile in tiles.sprites() if tile.solid]
+        players.update(delta_time, solid_tiles)
+        enemies.update(delta_time, solid_tiles, players.sprites())
+        attacks.update(delta_time, solid_tiles, players.sprites(), enemies.sprites())
 
 
-start_new_thread(threaded_game, ())
-while True:
-    connection, address = s.accept()
-    print("Connected to:", address)
+def main():
+    start_new_thread(threaded_game, ())
+    while True:
+        connection, address = s.accept()
+        print("Connected to:", address)
 
-    start_new_thread(threaded_client, (connection,))
+        start_new_thread(threaded_client, (connection,))
+
+
+if __name__ == "__main__":
+    main()
