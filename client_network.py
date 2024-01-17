@@ -16,6 +16,7 @@ TEXT_GREEN = "\033[92m"
 TEXT_BLUE = "\033[94m"
 TEXT_RED = "\033[31m"
 TEXT_LIGHT_RED = "\033[91m"
+TEXT_YELLOW = "\033[33m"
 
 screen = pg.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 font = pg.font.Font(pg.font.get_default_font(), PLAYER_FONT_SIZE)
@@ -115,12 +116,18 @@ class Network:
         x = 0
         while x < num_images:
             try:
+                print(f"{TEXT_YELLOW}sending request ri{x}")
                 self.client.send(f"ri{x}".encode('latin-1'))
+                print(f"{TEXT_YELLOW}request sent, awaiting response")
                 image = self.client.recv(4096000)
+                print(f"{TEXT_YELLOW}image received, sending request rn{x}")
                 self.client.send(f"rn{x}".encode('latin-1'))
+                print(f"{TEXT_YELLOW}request sent, awaiting response")
                 image_name = self.client.recv(4096).decode('latin-1')
+                print(f"{TEXT_YELLOW}image name received, writing image to file")
                 with open(f"imgz/{image_name}", "xb") as file:
                     file.write(image)
+                print(f"{TEXT_YELLOW}image successfully saved!")
                 x += 1
             except ValueError:
                 print(f"{TEXT_LIGHT_RED}Could not write image {x}, trying again")
